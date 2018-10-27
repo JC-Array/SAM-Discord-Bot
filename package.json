@@ -1,0 +1,11 @@
+{
+	"name": "sam_dev_boi",
+	"version": "0.0.1",
+	"description": "The Holy Hour Developement Discord Bot",
+	"main": "bot.js",
+	"authors": "Justin C.",
+	"dependencies": {
+		"discord.io": "github:woor/discord.io#gateway_v6",
+		"winston": "^3.1.0"
+	}
+}
