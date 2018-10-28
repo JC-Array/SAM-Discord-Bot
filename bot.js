@@ -63,6 +63,6 @@ bot.on('message', function (user, userID, channelID, message, evt) {
     }
 });
 
-bot.on('all', function(event) { }) {
+bot.on('all', function (event) {
     logger.info('log: ' + event);
-}
+});
