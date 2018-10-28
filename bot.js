@@ -1,15 +1,3 @@
-function ping(user1, channelID1) {
-    bot.sendMessage({
-        to: channelID1,
-        message: '@'+user1+' don\'t ping me you bitch. Only I can ping you.'
-    });
-    bot.sendMessage({
-        to: channelID1,
-        message: 'ping'
-    });
-}
-
-
 var Discord = require('discord.io');
 var logger = require('winston');
 
@@ -19,6 +7,23 @@ logger.add(new logger.transports.Console, {
     colorize: true
 });
 logger.level = 'debug';
+
+// handle the different authentication techniques
+let jsonToken = "";
+try {
+    jsonToken = require('./auth.json').token;
+} catch (err) {
+    jsonToken = "";
+}
+
+let token = process.env.DISCORD_AUTH_TOKEN || jsonToken;
+
+if (!token) {
+    logger.error('error with token, does not exist.  Please set up DISCORD_AUTH_TOKEN or auth.json file');
+} else {
+    logger.info(`found token: ${token}`);
+}
+
 
 // Initialize Discord Bot
 var bot = new Discord.Client({
@@ -66,3 +71,14 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 bot.on('all', function (event) {
     logger.info('log: ' + event);
 });
+
+let ping = function ping(user1, channelID1) {
+    bot.sendMessage({
+        to: channelID1,
+        message: '@'+user1+' don\'t ping me you bitch. Only I can ping you.'
+    });
+    bot.sendMessage({
+        to: channelID1,
+        message: 'ping'
+    });
+};
