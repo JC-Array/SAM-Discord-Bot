@@ -12,7 +12,6 @@ function ping(user1, channelID1) {
 
 var Discord = require('discord.io');
 var logger = require('winston');
-var auth = require('./auth.json');
 
 // Configure logger settings
 logger.remove(logger.transports.Console);
@@ -23,7 +22,7 @@ logger.level = 'debug';
 
 // Initialize Discord Bot
 var bot = new Discord.Client({
-    token: auth.token,
+    token: process.env.DISCORD_AUTH_TOKEN,
     autorun: true
 });
 
