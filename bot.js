@@ -27,7 +27,7 @@ if (!token) {
 
 // Initialize Discord Bot
 var bot = new Discord.Client({
-    token: process.env.DISCORD_AUTH_TOKEN,
+    token: token,
     autorun: true
 });
 
