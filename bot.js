@@ -6,8 +6,8 @@ logger.remove(logger.transports.Console);
 logger.add(new logger.transports.Console, {
     colorize: true
 });
-logger.level = 'debug';
-
+logger.level = process.env.LOGGER_LEVEL || 'debug';
+logger.debug(`LOGGER_LEVEL set to ${logger.level}`);
 // handle the different authentication techniques
 let jsonToken = "";
 try {
@@ -68,8 +68,9 @@ bot.on('message', function (user, userID, channelID, message, evt) {
     }
 });
 
-bot.on('all', function (event) {
-    logger.info('log: ' + event);
+// LOG ALL EVENTS
+bot.on('any', function (event) {
+    logger.debug(`[ANY EVENT FIRED] ${JSON.stringify(event)}`);
 });
 
 let ping = function ping(user1, channelID1) {
