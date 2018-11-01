@@ -43,8 +43,8 @@ bot.on('ready', function (evt) {
     JSON.stringify(bot.servers, null, 4).split('\n').forEach (function(element) {
         logger.info(element);
     });
-    logger.info(bot.servers.Server[0]);
-    users = bot.servers.Server[0].members;
+    logger.info(bot.servers["335603306879778819"].members);
+    users = bot.servers["335603306879778819"].members
 });
 
 bot.on('disconnect', function (errMsg, code) { });
