@@ -35,6 +35,7 @@ var bot = new Discord.Client({
 });
 
 bot.on('ready', function (evt) {
+    console.log('test')
     logger.info('Connected');
     logger.info('Logged in as: ');
     logger.info(bot.username + ' - (' + bot.id + ')');
