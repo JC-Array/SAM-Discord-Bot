@@ -35,7 +35,7 @@ var bot = new Discord.Client({
 });
 
 bot.on('ready', function (evt) {
-    console.log('test')
+    console.log('test');
     logger.info('Connected');
     logger.info('Logged in as: ');
     logger.info(bot.username + ' - (' + bot.id + ')');
@@ -43,8 +43,8 @@ bot.on('ready', function (evt) {
     JSON.stringify(bot.servers, null, 4).split('\n').forEach (function(element) {
         logger.info(element);
     });
-    logger.info(bot.servers["335603306879778819"].members);
-    users = bot.servers["335603306879778819"].members
+    logger.info('Server info finished');
+    users = bot.servers["335603306879778819"].members;
 });
 
 bot.on('disconnect', function (errMsg, code) { });
