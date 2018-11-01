@@ -1,0 +1,5 @@
+https://www.digitaltrends.com/gaming/how-to-make-a-discord-bot/
+https://github.com/renesansz/discord-greeter-bot/issues
+https://github.com/renesansz/discord-greeter-bot/issues/48           for no post
+https://izy521.gitbooks.io/discord-io/content/
+https://npmdoc.github.io/node-npmdoc-discord.io/build/apidoc.html#apidoc.element.discord.io.Client.prototype.leaveVoiceChannel
