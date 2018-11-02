@@ -142,15 +142,15 @@ let MHG = function MHG(voiceChannelID) {
             //choose a random file
             var fileNum = Math.floor((Math.random() * 5) + 1);
             switch (fileNum) {
-                case 1: fs.createReadStream('MHG1.mp3').pipe(stream, { end: false });
+                case 1: fs.createReadStream('soundClips/MHG1.mp3').pipe(stream, { end: false });
                     break;
-                case 2: fs.createReadStream('MHG2.mp3').pipe(stream, { end: false });
+                case 2: fs.createReadStream('soundClipsMHG2.mp3').pipe(stream, { end: false });
                     break;
-                case 3: fs.createReadStream('MHG3.mp3').pipe(stream, { end: false });
+                case 3: fs.createReadStream('soundClips/MHG3.mp3').pipe(stream, { end: false });
                     break;
-                case 4: fs.createReadStream('MHG4.mp3').pipe(stream, { end: false });
+                case 4: fs.createReadStream('soundClips/MHG4.mp3').pipe(stream, { end: false });
                     break;
-                case 5: fs.createReadStream('MHG5.mp3').pipe(stream, { end: false });
+                case 5: fs.createReadStream('soundClips/MHG5.mp3').pipe(stream, { end: false });
                     break;
             }
             stream.on('done', function () {
@@ -168,7 +168,7 @@ let townhall = function townhall(voiceChannelID) {
         if (users[key].voice_channel_id != null) {
             console.log('accepted');
             channelBlackList.forEach((channel) => {
-                if (channel == key.voice_channel_id) return;
+                if (channel == users[key].voice_channel_id) return;
                 bot.moveUserTo({ 'serverID': '335603306879778819', 'userID': key, 'channelID': voiceChannelID }, function (error, stream) {
                     if (error) return console.log('error: ' + error);
                 });
@@ -180,7 +180,7 @@ let townhall = function townhall(voiceChannelID) {
         if (error) return console.log('error: ' + error);
         bot.getAudioContext(voiceChannelID, function (error, stream) {
             if (error) return console.log('error: ' + error);
-            fs.createReadStream('TownhallCall.mp3').pipe(stream, { end: false });
+            fs.createReadStream('soundClips/TownhallCall.mp3').pipe(stream, { end: false });
             stream.on('done', function () {
                 bot.leaveVoiceChannel(voiceChannelID, function () { });
             });
