@@ -2,6 +2,7 @@ var Discord = require('discord.io');
 var fs = require('fs');
 var users;
 var channelWhiteList = ['507390751001542667', '507390809922994177', '507390777446498304', '507390932233224202', '507391013984403466', '507391055361212417', '507387673204490240'];
+var channelBlackList = ['507390016234979328'];
 
 // handle the different authentication techniques
 let jsonToken = "";
@@ -105,7 +106,7 @@ bot.on('voiceStateUpdate', function (event) {
 
     if (event.d.channel_id == null && preVoiceChannelID) {    //user left the channel
         for (var i = 0; i < channelWhiteList.length; i++) {
-            if (preVoiceChannelID == channelWhiteList[i]) {
+            if (preVoiceChannelID != channelBlackList[i]) {
                 MHG(preVoiceChannelID);
                 break;
             }
@@ -163,11 +164,14 @@ let MHG = function MHG(voiceChannelID) {
 let townhall = function townhall(voiceChannelID) {
     //move the users
     Object.keys(users).forEach((key) => {
-        console.log('user' + key.id);
-        if (key.voice_channel_id != null) {
+        console.log('user' + key);
+        if (user[key].voice_channel_id != null) {
             console.log('accepted');
-            bot.moveUserTo({ 'serverID': '335603306879778819', 'userID': key.id, 'channelID': voiceChannelID }, function (error, stream) {
-                if (error) return console.log('error: ' + error);
+            channelBlackList.forEach((channel) => {
+                if (channel == key.voice_channel_id) return;
+                bot.moveUserTo({ 'serverID': '335603306879778819', 'userID': key, 'channelID': voiceChannelID }, function (error, stream) {
+                    if (error) return console.log('error: ' + error);
+                });
             });
         }
     });
