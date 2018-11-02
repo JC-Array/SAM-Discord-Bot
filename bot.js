@@ -59,13 +59,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
         var cmd = args[0];
 
         //user's voice channel
-        var voiceChannelID = -1
-        for (var i = 0; i < users.length; i++) {
-            if (users[i].userID == userID) {
-                voiceChannelID = users[i].voice_channel_id;
-                break;
-            }
-        }
+        var voiceChannelID = users[userID].voice_channel_id;
         logger.info('user in channel: ' + voiceChannelID);
 
         args = args.splice(1);
@@ -115,6 +109,11 @@ bot.on('voiceStateUpdate', function (event) {
     var prevChannelID = -1;
 
     //update and grab previous channel      //optimise
+    //var voiceChannelID = users[userID].voice_channel_id;
+
+
+
+    //old code
     for (var i = 0; i < users.length; i++) {
         if (users[i].id == event.d.user_id) {
             prevChannelID = users[i].voice_channel_id;
