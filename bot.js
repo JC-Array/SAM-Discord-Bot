@@ -105,7 +105,8 @@ bot.on('voiceStateUpdate', function (event) {
 
     var flag = false;
     console.log('preVCI: ' + preVoiceChannelID);
-    if (event.d.channel_id == 'null') {    //user left the channel
+
+    if (event.d.channel_id == null) {    //user left the channel
         console.log('MHG: ' + preVoiceChannelID);
         for (var i = 0; i < channelBlackList.length; i++) {
             if (preVoiceChannelID != channelBlackList[i]) {
