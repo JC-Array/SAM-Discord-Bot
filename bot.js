@@ -1,5 +1,6 @@
 var Discord = require('discord.io');
 var fs = require('fs');
+var Pizzicato = require('./Pizzicato.js');
 var users;
 var channelWhiteList = ['507390751001542667', '507390809922994177', '507390777446498304', '507390932233224202', '507391013984403466', '507391055361212417', '507387673204490240'];
 var channelBlackList = ['507390016234979328'];
@@ -31,11 +32,11 @@ bot.on('ready', function (evt) {
     console.log('Connected');
     console.log('Logged in as: ');
     console.log(bot.username + ' - (' + bot.id + ')');
-    console.log('Server info:');
-    JSON.stringify(bot.servers, null, 4).split('\n').forEach (function(element) {
-        console.log(element);
-    });
-    console.log('Server info finished');
+    //console.log('Server info:');
+    //JSON.stringify(bot.servers, null, 4).split('\n').forEach (function(element) {
+    //    console.log(element);
+    //});
+    //console.log('Server info finished');
     users = JSON.parse(JSON.stringify(bot.servers["335603306879778819"].members));
 });
 
