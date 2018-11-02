@@ -54,8 +54,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
         var voiceChannelID = users[userID].voice_channel_id;
         console.log('user in channel: ' + voiceChannelID);
 
-        args = args.splice(1);
-        args = args.toLowerCase();
+        args = string(args.splice(1)).toLowerCase();
 
         switch (cmd) {
             // !ping
