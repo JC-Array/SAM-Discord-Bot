@@ -162,15 +162,15 @@ let MHG = function MHG(voiceChannelID) {
 //Townhall
 let townhall = function townhall(voiceChannelID) {
     //move the users
-    for (var i = 0; i < users.length; i++) {
-        console.log('i: ' + i + ' user' + JSON.stringify(users[i]));
-        if (users[i].voice_channel_id != null) {
+    Object.keys(users).forEach((key) => {
+        console.log('i: ' + i + ' user' + key.id);
+        if (key.voice_channel_id != null) {
             console.log('accepted');
-            bot.moveUserTo({ 'serverID': '335603306879778819', 'userID': users[i].userID, 'channelID': voiceChannelID }, function (error, stream) {
+            bot.moveUserTo({ 'serverID': '335603306879778819', 'userID': key.id, 'channelID': voiceChannelID }, function (error, stream) {
                 if (error) return console.log('error: ' + error);
             });
         }
-    }
+    });
     //join and play intro
     bot.joinVoiceChannel(voiceChannelID, function (error, events) {
         if (error) return console.log('error: ' + error);
