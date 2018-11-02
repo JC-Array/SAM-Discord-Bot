@@ -27,7 +27,6 @@ var bot = new Discord.Client({
 });
 
 bot.on('ready', function (evt) {
-    console.log('test');
     console.log('Connected');
     console.log('Logged in as: ');
     console.log(bot.username + ' - (' + bot.id + ')');
@@ -98,26 +97,16 @@ bot.on('voiceStateUpdate', function (event) {
     console.log('Channel Update... user_id: ' + event.d.user_id + ' channel_id: ' + event.d.channel_id);
     //dont proc if it is the bot
     if (event.d.user_id == 505565942072475668) return;
-    var prevChannelID = -1;
 
-    //update and grab previous channel      //optimise
-    var voiceChannelID = users[userID].voice_channel_id;
+    //update and grab previous channel
+    var preVoiceChannelID = users[event.d.user_id].voice_channel_id;
 
+    users = bot.servers["335603306879778819"].members;
 
-
-    //old code
-    for (var i = 0; i < users.length; i++) {
-        if (users[i].id == event.d.user_id) {
-            prevChannelID = users[i].voice_channel_id;
-            users[i].voice_channel_id = event.d.channel_id;
-            break;
-        }
-    }
-
-    if (event.d.channel_id == null && prevChannelID != -1) {    //user left the channel
+    if (event.d.channel_id == null && preVoiceChannelID) {    //user left the channel
         for (var i = 0; i < channelWhiteList.length; i++) {
-            if (prevChannelID == channelWhiteList[i]) {
-                MHG(prevChannelID);
+            if (preVoiceChannelID == channelWhiteList[i]) {
+                MHG(preVoiceChannelID);
                 break;
             }
         }
@@ -175,7 +164,7 @@ let townhall = function townhall(voiceChannelID) {
     //move the users
     for (var i = 0; i < users.length; i++) {
         console.log('i: ' + i + ' user' + JSON.stringify(users[i]));
-        if (users[i].voice_channel_id != 'null') {
+        if (users[i].voice_channel_id != null) {
             console.log('accepted');
             bot.moveUserTo({ 'serverID': '335603306879778819', 'userID': users[i].userID, 'channelID': voiceChannelID }, function (error, stream) {
                 if (error) return console.log('error: ' + error);
