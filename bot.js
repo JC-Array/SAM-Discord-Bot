@@ -54,7 +54,8 @@ bot.on('message', function (user, userID, channelID, message, evt) {
         var voiceChannelID = users[userID].voice_channel_id;
         console.log('user in channel: ' + voiceChannelID);
 
-        args = args.splice(1);
+        args = args.splice(1).toLowerCase();
+
         switch (cmd) {
             // !ping
             case 'ping':
@@ -72,18 +73,18 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                 });
                 break;
             case 'sound':
-                if (voiceChannelID != 'null') {
+                if (voiceChannelID == null) {
                     break;
                 }
                 MHG(voiceChannelID);
                 break;
-            case 'GTFO':
+            case 'gtfo':
                 bot.leaveVoiceChannel(voiceChannelID, function () { });
                 break;
-            case 'Townhall':
+            case 'townhall':
                 townhall(voiceChannelID);
                 break;
-            case 'Help':    //add actual help later
+            case 'help':    //add actual help later
                 bot.sendMessage({
                     to: channelID,
                     message: 'http://bfy.tw/6iBM'
