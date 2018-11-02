@@ -164,8 +164,8 @@ let MHG = function MHG(voiceChannelID) {
 let townhall = function townhall(voiceChannelID) {
     //move the users
     Object.keys(users).forEach((key) => {
-        console.log('user' + key);
-        if (user[key].voice_channel_id != null) {
+        console.log('user: ' + key);
+        if (users[key].voice_channel_id != null) {
             console.log('accepted');
             channelBlackList.forEach((channel) => {
                 if (channel == key.voice_channel_id) return;
