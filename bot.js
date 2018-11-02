@@ -101,8 +101,7 @@ bot.on('voiceStateUpdate', function (event) {
 
     //update and grab previous channel
     var preVoiceChannelID = users[event.d.user_id].voice_channel_id;
-
-    users = bot.servers["335603306879778819"].members;
+    
     var flag = false;
     console.log('pre: ' + preVoiceChannelID);
     if (event.d.channel_id == 'null') {    //user left the channel
@@ -117,6 +116,7 @@ bot.on('voiceStateUpdate', function (event) {
             MHG(preVoiceChannelID);
         }
     }
+    users = bot.servers["335603306879778819"].members;
 });
 
 // LOG ALL EVENTS
