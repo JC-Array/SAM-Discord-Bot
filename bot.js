@@ -54,7 +54,8 @@ bot.on('message', function (user, userID, channelID, message, evt) {
         var voiceChannelID = users[userID].voice_channel_id;
         console.log('user in channel: ' + voiceChannelID);
 
-        args = args.splice(1).toLowerCase();
+        args = args.splice(1);
+        args = args.toLowerCase();
 
         switch (cmd) {
             // !ping
@@ -151,7 +152,7 @@ let MHG = function MHG(voiceChannelID) {
             switch (fileNum) {
                 case 1: fs.createReadStream('soundClips/MHG1.mp3').pipe(stream, { end: false });
                     break;
-                case 2: fs.createReadStream('soundClipsMHG2.mp3').pipe(stream, { end: false });
+                case 2: fs.createReadStream('soundClips/MHG2.mp3').pipe(stream, { end: false });
                     break;
                 case 3: fs.createReadStream('soundClips/MHG3.mp3').pipe(stream, { end: false });
                     break;
