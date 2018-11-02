@@ -104,7 +104,7 @@ bot.on('voiceStateUpdate', function (event) {
 
     users = bot.servers["335603306879778819"].members;
 
-    if (event.d.channel_id == 'null' && preVoiceChannelID) {    //user left the channel
+    if (event.d.channel_id == 'null') {    //user left the channel
         for (var i = 0; i < channelWhiteList.length; i++) {
             if (preVoiceChannelID != channelBlackList[i]) {
                 MHG(preVoiceChannelID);
