@@ -1,6 +1,5 @@
 var Discord = require('discord.io');
 var fs = require('fs');
-var Pizzicato = require('Pizzicato.js');
 var users;
 var channelWhiteList = ['507390751001542667', '507390809922994177', '507390777446498304', '507390932233224202', '507391013984403466', '507391055361212417', '507387673204490240'];
 var channelBlackList = ['507390016234979328'];
