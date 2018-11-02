@@ -36,7 +36,7 @@ bot.on('ready', function (evt) {
         console.log(element);
     });
     console.log('Server info finished');
-    users = bot.servers["335603306879778819"].members;
+    users = JSON.parse(JSON.stringify(bot.servers["335603306879778819"].members));
 });
 
 bot.on('disconnect', function (errMsg, code) { });
@@ -72,7 +72,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                 });
                 break;
             case 'sound':
-                if (voiceChannelID) {
+                if (voiceChannelID != 'null') {
                     break;
                 }
                 MHG(voiceChannelID);
@@ -101,9 +101,10 @@ bot.on('voiceStateUpdate', function (event) {
 
     //update and grab previous channel
     var preVoiceChannelID = users[event.d.user_id].voice_channel_id;
-    
+    users = JSON.parse(JSON.stringify(bot.servers["335603306879778819"].members));
+
     var flag = false;
-    console.log('pre: ' + preVoiceChannelID);
+
     if (event.d.channel_id == 'null') {    //user left the channel
         console.log('MHG: ' + preVoiceChannelID);
         for (var i = 0; i < channelBlackList.length; i++) {
@@ -116,7 +117,6 @@ bot.on('voiceStateUpdate', function (event) {
             MHG(preVoiceChannelID);
         }
     }
-    users = bot.servers["335603306879778819"].members;
 });
 
 // LOG ALL EVENTS
