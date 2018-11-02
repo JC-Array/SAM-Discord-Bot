@@ -110,7 +110,7 @@ bot.on('voiceStateUpdate', function (event) {
         console.log('MHG: ' + preVoiceChannelID);
         for (var i = 0; i < channelBlackList.length; i++) {
             if (preVoiceChannelID != channelBlackList[i]) {
-                flag = true
+                flag = true;
                 break;
             }
         }
