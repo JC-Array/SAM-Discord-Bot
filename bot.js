@@ -1,5 +1,6 @@
 var Discord = require('discord.io');
 var fs = require('fs');
+var Pizzicato = require('Pizzicato.js');
 var users;
 var channelWhiteList = ['507390751001542667', '507390809922994177', '507390777446498304', '507390932233224202', '507391013984403466', '507391055361212417', '507387673204490240'];
 var channelBlackList = ['507390016234979328'];
@@ -73,10 +74,33 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                 });
                 break;
             case 'sound':
+                //if user is not in voice channel
                 if (voiceChannelID == null) {
                     break;
                 }
-                MHG(voiceChannelID);
+
+                //create sound
+                var sound = new Pizzicato.Sound({
+                    source: 'wave',
+                    options: {
+                        type: 'sine',
+                        frequency: 440
+                    }
+                }, function (error, events) {
+                    if (error) return console.log('error: ' + error);
+                });
+
+                //play sound
+                bot.joinVoiceChannel(voiceChannelID, function (error, events) {
+                    if (error) return console.log('error: ' + error);
+                    bot.getAudioContext(voiceChannelID, function (error, stream) {
+                        if (error) return console.log('error: ' + error);
+                        sound.play().pipe(stream, { end: false });
+                        stream.on('done', function () {
+                            bot.leaveVoiceChannel(voiceChannelID, function () { });
+                        });
+                    });
+                });
                 break;
             case 'gtfo':
                 bot.leaveVoiceChannel(voiceChannelID, function () { });
