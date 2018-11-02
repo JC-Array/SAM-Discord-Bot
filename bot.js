@@ -72,7 +72,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                 });
                 break;
             case 'sound':
-                if (voiceChannelID == -1) {
+                if (voiceChannelID) {
                     break;
                 }
                 MHG(voiceChannelID);
