@@ -163,7 +163,7 @@ let MHG = function MHG(voiceChannelID) {
 let townhall = function townhall(voiceChannelID) {
     //move the users
     Object.keys(users).forEach((key) => {
-        console.log('i: ' + i + ' user' + key.id);
+        console.log('user' + key.id);
         if (key.voice_channel_id != null) {
             console.log('accepted');
             bot.moveUserTo({ 'serverID': '335603306879778819', 'userID': key.id, 'channelID': voiceChannelID }, function (error, stream) {
