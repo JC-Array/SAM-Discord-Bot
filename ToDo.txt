@@ -34,3 +34,5 @@ Something something auto move people depending on game something something
 Move command functions into a seprate file
 	-do correct function documentation when done
 
+Overhall help command
+
