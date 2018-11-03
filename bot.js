@@ -74,7 +74,6 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                 });
                 break;
             case 'sound':
-                break;
                 //if user is not in voice channel
                 if (voiceChannelID == null) {
                     break;
