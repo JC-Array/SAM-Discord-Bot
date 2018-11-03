@@ -80,24 +80,13 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                     break;
                 }
 
-                //create sound
-                var sound = new Pizzicato.Sound({
-                    source: 'wave',
-                    options: {
-                        type: 'sine',
-                        frequency: 440
-                    }
-                }, function (error, events) {
-                    if (error) return console.log('error: ' + error);
-                });
-
                 //play sound
                 bot.joinVoiceChannel(voiceChannelID, function (error, events) {
                     if (error) return console.log('error: ' + error);
                     bot.getAudioContext(voiceChannelID, function (error, stream) {
                         if (error) return console.log('error: ' + error);
                         sound.play().pipe(stream, { end: false });
-                        stream.on('done', function () {
+                        fs.createReadStream('soundClips/Daft Punk - Something About Us.mp3').pipe('done', function () {
                             bot.leaveVoiceChannel(voiceChannelID, function () { });
                         });
                     });
