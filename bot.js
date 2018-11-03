@@ -147,7 +147,7 @@ bot.on('voiceStateUpdate', function (event) {
  
     //birthday function
     if (event.d.user_id == "226741725085827072" && preVoiceChannelID == null) { //175539927956717568
-        //birthday(event.d.channel_id);
+        birthday(event.d.channel_id);
     }
 
 });
@@ -231,7 +231,7 @@ let birthday = function birthday(voiceChannelID) {
         if (error) return console.log('error: ' + error);
         bot.getAudioContext(voiceChannelID, function (error, stream) {
             if (error) return console.log('error: ' + error);
-            fs.createReadStream('soundClips/MHG1.mp3').pipe(stream, { end: false });  
+            fs.createReadStream('soundClips/BDay.mp3').pipe(stream, { end: false });  
             stream.on('done', function () {
                 bot.leaveVoiceChannel(voiceChannelID, function () { });
             });
