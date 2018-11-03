@@ -84,8 +84,8 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                     if (error) return console.log('error: ' + error);
                     bot.getAudioContext(voiceChannelID, function (error, stream) {
                         if (error) return console.log('error: ' + error);
-                        sound.play().pipe(stream, { end: false });
-                        fs.createReadStream('soundClips/Daft Punk - Something About Us.mp3').pipe('done', function () {
+                        fs.createReadStream('soundClips/Daft Punk - Something About Us.mp3').pipe(stream, { end: false });
+                        stream.on('done', function () {
                             bot.leaveVoiceChannel(voiceChannelID, function () { });
                         });
                     });
