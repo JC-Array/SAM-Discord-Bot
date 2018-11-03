@@ -146,8 +146,8 @@ bot.on('voiceStateUpdate', function (event) {
     }
  
     //birthday function
-    if (event.d.user_id == "226741725085827072" && preVoiceChannelID == null) {
-        birthday(event.d.channel_id);
+    if (event.d.user_id == "226741725085827072" && preVoiceChannelID == null) { //175539927956717568
+        //birthday(event.d.channel_id);
     }
 
 });
