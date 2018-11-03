@@ -144,6 +144,12 @@ bot.on('voiceStateUpdate', function (event) {
             MHG(preVoiceChannelID);
         }
     }
+ 
+    //birthday function
+    if (event.d.user_id == "226741725085827072" && preVoiceChannelID == null) {
+        birthday(event.d.channel_id);
+    }
+
 });
 
 // LOG ALL EVENTS
@@ -213,6 +219,19 @@ let townhall = function townhall(voiceChannelID) {
         bot.getAudioContext(voiceChannelID, function (error, stream) {
             if (error) return console.log('error: ' + error);
             fs.createReadStream('soundClips/TownhallCall.mp3').pipe(stream, { end: false });
+            stream.on('done', function () {
+                bot.leaveVoiceChannel(voiceChannelID, function () { });
+            });
+        });
+    });
+};
+
+let birthday = function birthday(voiceChannelID) {
+    bot.joinVoiceChannel(voiceChannelID, function (error, events) {
+        if (error) return console.log('error: ' + error);
+        bot.getAudioContext(voiceChannelID, function (error, stream) {
+            if (error) return console.log('error: ' + error);
+            fs.createReadStream('soundClips/MHG1.mp3').pipe(stream, { end: false });  
             stream.on('done', function () {
                 bot.leaveVoiceChannel(voiceChannelID, function () { });
             });
