@@ -48,8 +48,8 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 
     console.log('message: ' + message + ' user: ' + user);
     if (message.substring(0, 1) == '!') {
-        var args = message.substring(1).toLowerCase().split(' ');
-        var cmd = args[0];
+        var args = message.substring(1).split(' ');
+        var cmd = args[0].toLowerCase();
 
         //user's voice channel
         var voiceChannelID = users[userID].voice_channel_id;
