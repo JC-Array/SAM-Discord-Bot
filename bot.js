@@ -104,6 +104,8 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                 });
                 break;
             case 'play':
+                play(voiceChnnelID, args);
+                break;
 
         }
     }
