@@ -232,12 +232,12 @@ let birthday = function birthday(voiceChannelID) {
 };
 
 let play = function play(voiceChannelID, args) {
-    console.log('Time to play music');
+    console.log('Time to play music: ' + args[1]);
     bot.joinVoiceChannel(voiceChannelID, function (error, events) {
         if (error) return console.log('error: ' + error);
         bot.getAudioContext(voiceChannelID, function (error, stream) {
             if (error) return console.log('error: ' + error);
-            ytdl(args[0], { quality: 'highestaudio' }).pipe(stream, { end: false });
+            ytdl(args[1], { quality: 'highestaudio' }).pipe(stream, { end: false });
             stream.on('done', function () {
                 bot.leaveVoiceChannel(voiceChannelID, function () { });
             });
