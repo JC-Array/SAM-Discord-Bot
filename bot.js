@@ -135,7 +135,7 @@ bot.on('voiceStateUpdate', function (event) {
  
     //birthday function
     if (event.d.user_id == "175539927956717568" && preVoiceChannelID == null) { 
-        birthday(event.d.channel_id);
+        //birthday(event.d.channel_id);
     }
 
 });
