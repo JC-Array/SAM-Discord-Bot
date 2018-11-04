@@ -104,7 +104,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                 });
                 break;
             case 'play':
-                play(voiceChnnelID, args);
+                play(voiceChannelID, args);
                 break;
 
         }
@@ -231,7 +231,7 @@ let birthday = function birthday(voiceChannelID) {
     });
 };
 
-let play = function play(voiceChnnelID, args) {
+let play = function play(voiceChannelID, args) {
     console.log('Time to play music');
     bot.joinVoiceChannel(voiceChannelID, function (error, events) {
         if (error) return console.log('error: ' + error);
