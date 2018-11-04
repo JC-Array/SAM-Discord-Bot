@@ -103,6 +103,8 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                     message: 'http://bfy.tw/6iBM'
                 });
                 break;
+            case 'play':
+
         }
     }
 });
@@ -220,6 +222,20 @@ let birthday = function birthday(voiceChannelID) {
         bot.getAudioContext(voiceChannelID, function (error, stream) {
             if (error) return console.log('error: ' + error);
             fs.createReadStream('soundClips/BDay.mp3').pipe(stream, { end: false });  
+            stream.on('done', function () {
+                bot.leaveVoiceChannel(voiceChannelID, function () { });
+            });
+        });
+    });
+};
+
+let play = function play(voiceChnnelID, args) {
+    console.log('Time to play music');
+    bot.joinVoiceChannel(voiceChannelID, function (error, events) {
+        if (error) return console.log('error: ' + error);
+        bot.getAudioContext(voiceChannelID, function (error, stream) {
+            if (error) return console.log('error: ' + error);
+            ytdl('https://youtu.be/7b_Z2_EtXYI', { quality: 'highestaudio' }).pipe(stream, { end: false });
             stream.on('done', function () {
                 bot.leaveVoiceChannel(voiceChannelID, function () { });
             });
