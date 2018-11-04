@@ -237,7 +237,7 @@ let play = function play(voiceChannelID, args) {
         if (error) return console.log('error: ' + error);
         bot.getAudioContext(voiceChannelID, function (error, stream) {
             if (error) return console.log('error: ' + error);
-            ytdl('https://youtu.be/7b_Z2_EtXYI', { quality: 'highestaudio' }).pipe(stream, { end: false });
+            ytdl(args, { quality: 'highestaudio' }).pipe(stream, { end: false });
             stream.on('done', function () {
                 bot.leaveVoiceChannel(voiceChannelID, function () { });
             });
