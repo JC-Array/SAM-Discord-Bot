@@ -10,8 +10,12 @@ var channelWhiteList = ['507390751001542667', '507390809922994177', '50739077744
 var channelBlackList = ['507390016234979328'];
 
 var waitingForSearchReply;
+var playingMusic = false;
+
+var musicQueue = [];
 
 var searchReturn;
+
 
 // handle the different authentication techniques
 let jsonToken = "";
@@ -133,6 +137,18 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                 searchYoutube(youtubeToken, args);
                 waitingForSearchReply = userID;
                 break;
+            case 'queue':
+                var queueString = "";
+                if (musicQueue.length() == 0) {
+                    queueString = "There is no queue";
+                } else {
+                    musicQueue.forEach((element) => {
+                        queueString = queueString + queueString
+                    });
+                }
+                break;
+            case 'test':
+                console.log(ytdl.getBasicInfo('https://youtu.be/E-cvKiFf0n0'));
 
         }
     }
@@ -177,6 +193,17 @@ bot.on('any', function (event) {
     //logger.debug(`[ANY EVENT FIRED] ${JSON.stringify(event)}`);
 });
 
+stream.on('done', function () {
+    musicQueue.shift();
+    if (musicQueue.length == 0) {
+        bot.leaveVoiceChannel(voiceChannelID, function () { });
+        playingMusic = false;
+    } else {
+        //play next in queue
+        ytdl(String(musicQueue[0]), { quality: 'highestaudio' }).pipe(stream, { end: false })
+    }
+});
+
 //Ping function
 let ping = function ping(user1, channelID1) {
     bot.sendMessage({
@@ -191,6 +218,10 @@ let ping = function ping(user1, channelID1) {
 
 //Man I hate that guy function
 let MHG = function MHG(voiceChannelID) {
+
+    if (playingMusic) {
+        return;
+    }
 
     bot.joinVoiceChannel(voiceChannelID, function (error, events) {
         if (error) return console.log('error: ' + error);
@@ -261,82 +292,26 @@ let birthday = function birthday(voiceChannelID) {
 let play = function play(voiceChannelID, video) {
     try {
         console.log('Time to play music: ' + video);
-        bot.joinVoiceChannel(voiceChannelID, function (error, events) {
-            if (error) return console.log('error: ' + error);
-            bot.getAudioContext(voiceChannelID, function (error, stream) {
+        if (playingMusic) {
+            //add to queue
+            musicQueue.push(video);
+        } else {
+            //add to queue and play
+            musicQueue.push(video);
+            bot.joinVoiceChannel(voiceChannelID, function (error, events) {
                 if (error) return console.log('error: ' + error);
-                ytdl(String(video), { quality: 'highestaudio' }).pipe(stream, { end: false });
-                stream.on('done', function () {
-                    bot.leaveVoiceChannel(voiceChannelID, function () { });
+                bot.getAudioContext(voiceChannelID, function (error, stream) {
+                    if (error) return console.log('error: ' + error);
+                    playingMusic = true;
+                    ytdl(String(musicQueue[0]), { quality: 'highestaudio' }).pipe(stream, { end: false });
                 });
             });
-        });
+        }
     } catch (err) {
         console.log(err);
     }
 };
 
-/**
- * Create an OAuth2 client with the given credentials, and then execute the
- * given callback function.
- *
- * @param {Object} credentials The authorization client credentials.
- * @param {function} callback The callback to call with the authorized client.
- */
-function authorize(credentials, callback) {
-    var clientSecret = credentials.installed.client_secret;
-    var clientId = credentials.installed.client_id;
-    var redirectUrl = credentials.installed.redirect_uris[0];
-    var oauth2Client = new OAuth2(clientId, clientSecret, redirectUrl);
-
-    // Check if we have previously stored a token.
-    fs.readFile(TOKEN_PATH, function (err, token) {
-        if (err) {
-            getNewToken(oauth2Client, callback);
-        } else {
-            oauth2Client.credentials = JSON.parse(token);
-            callback(oauth2Client);
-        }
-    });
-}
-
-/**
- * Get and store new token after prompting for user authorization, and then
- * execute the given callback with the authorized OAuth2 client.
- *
- * @param {google.auth.OAuth2} oauth2Client The OAuth2 client to get token for.
- * @param {getEventsCallback} callback The callback to call with the authorized
- *     client.
- */
-function getNewToken(oauth2Client, callback) {
-    var authUrl = oauth2Client.generateAuthUrl({
-        access_type: 'offline',
-        scope: SCOPES
-    });
-    console.log('Authorize this app by visiting this url: ', authUrl);
-    var rl = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout
-    });
-    rl.question('Enter the code from that page here: ', function (code) {
-        rl.close();
-        oauth2Client.getToken(code, function (err, token) {
-            if (err) {
-                console.log('Error while trying to retrieve access token', err);
-                return;
-            }
-            oauth2Client.credentials = token;
-            storeToken(token);
-            callback(oauth2Client);
-        });
-    });
-}
-
-/**
- * Lists the names and IDs of up to 10 files.
- *
- * @param {google.auth.OAuth2} auth An authorized OAuth2 client.
- */
 function searchYoutube(auth, args) {
     var service = google.youtube('v3');
     console.log('Youtube API request');
