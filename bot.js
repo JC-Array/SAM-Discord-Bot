@@ -328,10 +328,10 @@ function searchYoutube(auth, args) {
             console.log('The API returned an error: ' + err);
             return;
         }
-        console.log(response);
+        console.log('Response: ' + response.status + ' ' + response.statusText);
         var data = response.data.items;
-        if (channels.length == 0) {
-            console.log('No channel found.');
+        if (data.length == 0) {
+            console.log('No response found.');
         } else {
             console.log('Printing search: ');
             data.forEach((video) => {
