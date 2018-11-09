@@ -112,7 +112,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                 play(voiceChannelID, args);
                 break;
             case 'test':
-                getChannel(YOUTUBE_AUTH_TOKEN);
+                getChannel(youtubeToken);
                 break;
 
         }
