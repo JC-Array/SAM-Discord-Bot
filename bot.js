@@ -109,7 +109,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                 });
                 break;
             case 'play':
-                play(voiceChannelID, args);
+                play(voiceChannelID, args[0]);
                 break;
             case 'search':
                 searchYoutube(youtubeToken, args, voiceChannelID);
@@ -239,13 +239,13 @@ let birthday = function birthday(voiceChannelID) {
     });
 };
 
-let play = function play(voiceChannelID, args) {
-    console.log('Time to play music: ' + args[0]);
+let play = function play(voiceChannelID, video) {
+    console.log('Time to play music: ' + video);
     bot.joinVoiceChannel(voiceChannelID, function (error, events) {
         if (error) return console.log('error: ' + error);
         bot.getAudioContext(voiceChannelID, function (error, stream) {
             if (error) return console.log('error: ' + error);
-            ytdl(String(args[0]), { quality: 'highestaudio' }).pipe(stream, { end: false });
+            ytdl(String(video), { quality: 'highestaudio' }).pipe(stream, { end: false });
             stream.on('done', function () {
                 bot.leaveVoiceChannel(voiceChannelID, function () { });
             });
@@ -349,7 +349,8 @@ function searchYoutube(auth, args, voiceChannelID) {
             bot.on('message', function (user, userID, channelID, message, evt) {
                 console.log('search reply ' + message);
                 try {
-                    play(voiceChannelID, ('https://www.youtube.com/watch?v=' + data[message].id));
+                    var video = https://www.youtube.com/watch?v=' + data[parseInt(message) - 1].id;
+                    play(voiceChannelID, video);
                 } catch (err) {
                     console.log(err);
                 }
