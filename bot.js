@@ -349,7 +349,7 @@ function searchYoutube(auth, args, voiceChannelID) {
             bot.on('message', function (user, userID, channelID, message, evt) {
                 console.log('search reply ' + message);
                 try {
-                    var video = https://www.youtube.com/watch?v=' + data[parseInt(message) - 1].id;
+                    var video = 'https://www.youtube.com/watch?v=' + data[parseInt(message) - 1].id;
                     play(voiceChannelID, video);
                 } catch (err) {
                     console.log(err);
