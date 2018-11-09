@@ -16,6 +16,7 @@ var musicQueue = [];
 
 var searchReturn;
 
+var streamMain;
 
 // handle the different authentication techniques
 let jsonToken = "";
@@ -193,7 +194,7 @@ bot.on('any', function (event) {
     //logger.debug(`[ANY EVENT FIRED] ${JSON.stringify(event)}`);
 });
 
-stream.on('done', function () {
+streamMain.on('done', function () {
     musicQueue.shift();
     if (musicQueue.length == 0) {
         bot.leaveVoiceChannel(voiceChannelID, function () { });
@@ -264,6 +265,9 @@ let townhall = function townhall(voiceChannelID) {
         }
     });
     //join and play intro
+    if (playingMusic) {
+        return;
+    }
     bot.joinVoiceChannel(voiceChannelID, function (error, events) {
         if (error) return console.log('error: ' + error);
         bot.getAudioContext(voiceChannelID, function (error, stream) {
@@ -303,6 +307,7 @@ let play = function play(voiceChannelID, video) {
                 bot.getAudioContext(voiceChannelID, function (error, stream) {
                     if (error) return console.log('error: ' + error);
                     playingMusic = true;
+                    streamMain = stream;
                     ytdl(String(musicQueue[0]), { quality: 'highestaudio' }).pipe(stream, { end: false });
                 });
             });
