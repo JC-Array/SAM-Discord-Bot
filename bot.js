@@ -295,22 +295,17 @@ let play = function play(voiceChannelID, video) {
                     if (error) return console.log('error: ' + error);
                     playingMusic = true;
                     console.log('play music true');
-                    ytdl(String(musicQueue[0]), { quality: 'highestaudio' }).pipe(stream, { end: false });
-                    while (musicQueue.length > 0 && musicQueue != null) {
+                    while (musicQueue.length > 0) {
                         console.log('are we there yet');
+                        ytdl(String(musicQueue[0]), { quality: 'highestaudio' }).pipe(stream, { end: false });
                         stream.on('done', function () {
                             musicQueue.shift();
-                            //play next in queue
                             console.log('next song' + musicQueue[0]);
-                            ytdl(String(musicQueue[0]), { quality: 'highestaudio' }).pipe(stream, { end: false })
-                            
                         });
                     }
-                    if (musicQueue.length == 0) {
-                        bot.leaveVoiceChannel(voiceChannelID, function () { });
-                        playingMusic = false;
-                        console.log('play music false');
-                    }
+                    bot.leaveVoiceChannel(voiceChannelID, function () { });
+                    playingMusic = false;
+                    console.log('play music false');
                 });
             });
         }
