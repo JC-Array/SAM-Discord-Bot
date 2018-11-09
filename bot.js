@@ -57,7 +57,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
     // It will listen for messages that will start with `!`
 
     console.log('message: ' + message + ' user: ' + user);
-
+    var voiceChannelID = users[userID].voice_channel_id;
     if (waitingForSearchReply == userID) {
         console.log('search reply ' + message);
         try {
@@ -76,7 +76,6 @@ bot.on('message', function (user, userID, channelID, message, evt) {
         var cmd = args[0].toLowerCase();
 
         //user's voice channel
-        var voiceChannelID = users[userID].voice_channel_id;
         console.log('user in channel: ' + voiceChannelID);
 
         args = args.splice(1);
