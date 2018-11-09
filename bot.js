@@ -333,9 +333,17 @@ function searchYoutube(auth, args) {
         if (data.length == 0) {
             console.log('No response found.');
         } else {
+            var searchString;
             console.log('Printing search: ');
             data.forEach((video) => {
-                console.log(video);
+                searchString = searchString + "Video: " + video.id.videoId + "\t";
+                searchString = searchString + "Title: " + video.snippet.title + "\t";
+                searchString = searchString + "Channel: " + video.snippet.channelTitle + "\n";
+            });
+            console.log(searchString);
+            bot.sendMessage({
+                to: '507703901663920141',
+                message: searchString
             });
         }
     });
