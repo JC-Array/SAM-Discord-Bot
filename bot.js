@@ -9,6 +9,10 @@ var users;
 var channelWhiteList = ['507390751001542667', '507390809922994177', '507390777446498304', '507390932233224202', '507391013984403466', '507391055361212417', '507387673204490240'];
 var channelBlackList = ['507390016234979328'];
 
+var waitingForSearchReply;
+
+var searchReturn;
+
 // handle the different authentication techniques
 let jsonToken = "";
 try {
@@ -52,6 +56,20 @@ bot.on('message', function (user, userID, channelID, message, evt) {
     // It will listen for messages that will start with `!`
 
     console.log('message: ' + message + ' user: ' + user);
+
+    if (waitingForSearchReply != null) {
+        console.log('search reply ' + message);
+        try {
+            var video = 'https://www.youtube.com/watch?v=' + searchReturn[parseInt(message) - 1].id;
+            play(voiceChannelID, video);
+        } catch (err) {
+            console.log(err);
+        }
+
+        waitingForSearchReply = null;
+        return;
+    }
+
     if (message.substring(0, 1) == '!') {
         var args = message.substring(1).split(' ');
         var cmd = args[0].toLowerCase();
@@ -112,7 +130,8 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                 play(voiceChannelID, args[0]);
                 break;
             case 'search':
-                searchYoutube(youtubeToken, args, voiceChannelID);
+                searchYoutube(youtubeToken, args);
+                waitingForSearchReply = userID;
                 break;
 
         }
@@ -240,17 +259,21 @@ let birthday = function birthday(voiceChannelID) {
 };
 
 let play = function play(voiceChannelID, video) {
-    console.log('Time to play music: ' + video);
-    bot.joinVoiceChannel(voiceChannelID, function (error, events) {
-        if (error) return console.log('error: ' + error);
-        bot.getAudioContext(voiceChannelID, function (error, stream) {
+    try {
+        console.log('Time to play music: ' + video);
+        bot.joinVoiceChannel(voiceChannelID, function (error, events) {
             if (error) return console.log('error: ' + error);
-            ytdl(String(video), { quality: 'highestaudio' }).pipe(stream, { end: false });
-            stream.on('done', function () {
-                bot.leaveVoiceChannel(voiceChannelID, function () { });
+            bot.getAudioContext(voiceChannelID, function (error, stream) {
+                if (error) return console.log('error: ' + error);
+                ytdl(String(video), { quality: 'highestaudio' }).pipe(stream, { end: false });
+                stream.on('done', function () {
+                    bot.leaveVoiceChannel(voiceChannelID, function () { });
+                });
             });
         });
-    });
+    } catch (err) {
+        console.log(err);
+    }
 };
 
 /**
@@ -314,7 +337,7 @@ function getNewToken(oauth2Client, callback) {
  *
  * @param {google.auth.OAuth2} auth An authorized OAuth2 client.
  */
-function searchYoutube(auth, args, voiceChannelID) {
+function searchYoutube(auth, args) {
     var service = google.youtube('v3');
     console.log('Youtube API request');
     service.search.list({
@@ -345,16 +368,7 @@ function searchYoutube(auth, args, voiceChannelID) {
                 to: '507703901663920141',
                 message: searchString
             });
-
-            bot.on('message', function (user, userID, channelID, message, evt) {
-                console.log('search reply ' + message);
-                try {
-                    var video = 'https://www.youtube.com/watch?v=' + data[parseInt(message) - 1].id;
-                    play(voiceChannelID, video);
-                } catch (err) {
-                    console.log(err);
-                }
-            });
+            searchReturn = data;
         }
     });
 }
