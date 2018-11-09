@@ -16,8 +16,6 @@ var musicQueue = [];
 
 var searchReturn;
 
-var streamMain;
-
 // handle the different authentication techniques
 let jsonToken = "";
 try {
@@ -194,17 +192,6 @@ bot.on('any', function (event) {
     //logger.debug(`[ANY EVENT FIRED] ${JSON.stringify(event)}`);
 });
 
-streamMain.on('done', function () {
-    musicQueue.shift();
-    if (musicQueue.length == 0) {
-        bot.leaveVoiceChannel(voiceChannelID, function () { });
-        playingMusic = false;
-    } else {
-        //play next in queue
-        ytdl(String(musicQueue[0]), { quality: 'highestaudio' }).pipe(stream, { end: false })
-    }
-});
-
 //Ping function
 let ping = function ping(user1, channelID1) {
     bot.sendMessage({
@@ -309,6 +296,18 @@ let play = function play(voiceChannelID, video) {
                     playingMusic = true;
                     streamMain = stream;
                     ytdl(String(musicQueue[0]), { quality: 'highestaudio' }).pipe(stream, { end: false });
+                    while (musicQueue.length != 0) {
+                        stream.on('done', function () {
+                            musicQueue.shift();
+                            if (musicQueue.length == 0) {
+                                bot.leaveVoiceChannel(voiceChannelID, function () { });
+                                playingMusic = false;
+                            } else {
+                                //play next in queue
+                                ytdl(String(musicQueue[0]), { quality: 'highestaudio' }).pipe(stream, { end: false })
+                            }
+                        });
+                    }
                 });
             });
         }
