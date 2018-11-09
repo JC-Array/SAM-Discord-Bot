@@ -61,7 +61,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
     if (waitingForSearchReply == userID) {
         console.log('search reply ' + message);
         try {
-            var video = 'https://www.youtube.com/watch?v=' + searchReturn[parseInt(message) - 1].id;
+            var video = 'https://www.youtube.com/watch?v=' + searchReturn[parseInt(message) - 1].id.videoId;
             play(voiceChannelID, video);
         } catch (err) {
             console.log(err);
