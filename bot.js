@@ -295,10 +295,9 @@ let play = function play(voiceChannelID, video) {
                     if (error) return console.log('error: ' + error);
                     playingMusic = true;
                     console.log('play music true');
-                    console.log(musicQueue[0]);
-                    return;
                     ytdl(String(musicQueue[0]), { quality: 'highestaudio' }).pipe(stream, { end: false });
                     while (musicQueue.length > 0 && musicQueue != null) {
+                        console.log('are we there yet');
                         stream.on('done', function () {
                             musicQueue.shift();
                             //play next in queue
