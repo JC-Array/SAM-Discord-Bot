@@ -58,7 +58,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 
     console.log('message: ' + message + ' user: ' + user);
 
-    if (waitingForSearchReply != null) {
+    if (waitingForSearchReply == userID) {
         console.log('search reply ' + message);
         try {
             var video = 'https://www.youtube.com/watch?v=' + searchReturn[parseInt(message) - 1].id;
@@ -368,7 +368,7 @@ function searchYoutube(auth, args) {
                 to: '507703901663920141',
                 message: searchString
             });
-            searchReturn = data;
+            searchReturn = JSON.parse(JSON.stringify(data));
         }
     });
 }
