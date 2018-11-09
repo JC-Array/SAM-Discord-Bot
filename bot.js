@@ -369,6 +369,7 @@ function searchYoutube(auth, args) {
                 message: searchString
             });
             searchReturn = JSON.parse(JSON.stringify(data));
+            console.log(searchReturn);
         }
     });
 }
