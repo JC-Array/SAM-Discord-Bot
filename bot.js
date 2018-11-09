@@ -112,7 +112,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                 play(voiceChannelID, args);
                 break;
             case 'search':
-                searchYoutube(youtubeToken, args);
+                searchYoutube(youtubeToken, args, voiceChannelID);
                 break;
 
         }
@@ -314,7 +314,7 @@ function getNewToken(oauth2Client, callback) {
  *
  * @param {google.auth.OAuth2} auth An authorized OAuth2 client.
  */
-function searchYoutube(auth, args) {
+function searchYoutube(auth, args, voiceChannelID) {
     var service = google.youtube('v3');
     console.log('Youtube API request');
     service.search.list({
@@ -333,17 +333,26 @@ function searchYoutube(auth, args) {
         if (data.length == 0) {
             console.log('No response found.');
         } else {
-            var searchString;
+            var searchString = "";
             console.log('Printing search: ');
-            data.forEach((video) => {
-                searchString = searchString + "Video: " + video.id.videoId + "\t";
-                searchString = searchString + "Title: " + video.snippet.title + "\t";
-                searchString = searchString + "Channel: " + video.snippet.channelTitle + "\n";
-            });
+            for (i = 0; i < data.length; i++) {
+                searchString = searchString +  (i+1) + "\t";
+                searchString = searchString + "Channel: " + data[i].snippet.channelTitle + "\t";
+                searchString = searchString + "Title: " + data[i].snippet.title + "\n";
+            }
             console.log(searchString);
             bot.sendMessage({
                 to: '507703901663920141',
                 message: searchString
+            });
+
+            bot.on('message', function (user, userID, channelID, message, evt) {
+                console.log('search reply ' + message);
+                try {
+                    play(voiceChannelID, ('https://www.youtube.com/watch?v=' + data[message].id));
+                } catch (err) {
+                    console.log(err);
+                }
             });
         }
     });
