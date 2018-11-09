@@ -52,6 +52,7 @@ bot.on('ready', function (evt) {
 bot.on('disconnect', function (errMsg, code) { });
 
 bot.on('message', function (user, userID, channelID, message, evt) {
+    if (userID == 505565942072475668) return;
     // Our bot needs to know if it will execute a command
     // It will listen for messages that will start with `!`
 
@@ -363,7 +364,6 @@ function searchYoutube(auth, args) {
                 searchString = searchString + "Channel: " + data[i].snippet.channelTitle + "\t";
                 searchString = searchString + "Title: " + data[i].snippet.title + "\n";
             }
-            console.log(searchString);
             bot.sendMessage({
                 to: '507703901663920141',
                 message: searchString
