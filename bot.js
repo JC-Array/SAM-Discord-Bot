@@ -2,7 +2,7 @@ var Discord = require('discord.io');
 var fs = require('fs');
 const ytdl = require('ytdl-core');
 var readline = require('readline');
-var google = require('googleapis');
+var google = require('googleapis').google;
 //var OAuth2 = google.auth.OAuth2;
 
 var users;
