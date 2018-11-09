@@ -294,7 +294,6 @@ let play = function play(voiceChannelID, video) {
                 bot.getAudioContext(voiceChannelID, function (error, stream) {
                     if (error) return console.log('error: ' + error);
                     playingMusic = true;
-                    streamMain = stream;
                     ytdl(String(musicQueue[0]), { quality: 'highestaudio' }).pipe(stream, { end: false });
                     while (musicQueue.length != 0) {
                         stream.on('done', function () {
