@@ -294,18 +294,21 @@ let play = function play(voiceChannelID, video) {
                 bot.getAudioContext(voiceChannelID, function (error, stream) {
                     if (error) return console.log('error: ' + error);
                     playingMusic = true;
+                    console.log('play music true');
                     ytdl(String(musicQueue[0]), { quality: 'highestaudio' }).pipe(stream, { end: false });
-                    while (musicQueue.length != 0 && musicQueue != null) {
+                    while (musicQueue.length > 0 && musicQueue != null) {
                         stream.on('done', function () {
                             musicQueue.shift();
-                            if (musicQueue.length == 0) {
-                                bot.leaveVoiceChannel(voiceChannelID, function () { });
-                                playingMusic = false;
-                            } else {
-                                //play next in queue
-                                ytdl(String(musicQueue[0]), { quality: 'highestaudio' }).pipe(stream, { end: false })
-                            }
+                            //play next in queue
+                            console.log('next song' + musicQueue[0]);
+                            ytdl(String(musicQueue[0]), { quality: 'highestaudio' }).pipe(stream, { end: false })
+                            
                         });
+                    }
+                    if (musicQueue.length == 0) {
+                        bot.leaveVoiceChannel(voiceChannelID, function () { });
+                        playingMusic = false;
+                        console.log('play music false');
                     }
                 });
             });
