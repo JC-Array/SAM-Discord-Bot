@@ -316,6 +316,7 @@ function getNewToken(oauth2Client, callback) {
  */
 function searchYoutube(auth, args) {
     var service = google.youtube('v3');
+    console.log('Youtube API request');
     service.search.list({
         auth: auth,
         part: 'snippet',
@@ -327,6 +328,7 @@ function searchYoutube(auth, args) {
             console.log('The API returned an error: ' + err);
             return;
         }
+        console.log(response);
         var data = response.data.items;
         if (channels.length == 0) {
             console.log('No channel found.');
