@@ -3,7 +3,7 @@ var fs = require('fs');
 const ytdl = require('ytdl-core');
 var readline = require('readline');
 var google = require('googleapis');
-var OAuth2 = google.auth.OAuth2;
+//var OAuth2 = google.auth.OAuth2;
 
 var users;
 var channelWhiteList = ['507390751001542667', '507390809922994177', '507390777446498304', '507390932233224202', '507391013984403466', '507391055361212417', '507387673204490240'];
