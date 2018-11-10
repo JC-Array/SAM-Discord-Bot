@@ -298,11 +298,11 @@ let play = function play(voiceChannelID, video) {
                     //while (musicQueue.length > 0) {
                     console.log('are we there yet');
                     console.log(musicQueue[0]);
-                    try {
-                        ytdl(String(musicQueue[0]), { quality: 'highestaudio' }).pipe(stream, { end: false });
-                    } catch (err) {
-                        console.log(err);
-                    }
+                    ytdl(String(musicQueue[0]), { quality: 'highestaudio' }).pipe(stream, { end: false });
+
+                    stream.on('error', function (err) {
+                        console.log(JSON.stringify(err));
+                    });
                     stream.on('done', function () {
                         musicQueue.shift();
                         console.log('next song' + musicQueue[0]);
