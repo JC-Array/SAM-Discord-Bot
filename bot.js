@@ -142,7 +142,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                     queueString = "There is no queue";
                 } else {
                     musicQueue.forEach((element) => {
-                        queueString = queueString + queueString
+                        queueString = queueString + element + "\n"
                     });
                 }
                 break;
