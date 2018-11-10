@@ -296,12 +296,17 @@ let play = function play(voiceChannelID, video) {
                     playingMusic = true;
                     console.log('play music true');
                     //while (musicQueue.length > 0) {
-                        console.log('are we there yet');
+                    console.log('are we there yet');
+                    console.log(musicQueue[0]);
+                    try {
                         ytdl(String(musicQueue[0]), { quality: 'highestaudio' }).pipe(stream, { end: false });
-                        stream.on('done', function () {
-                            musicQueue.shift();
-                            console.log('next song' + musicQueue[0]);
-                        });
+                    } catch (err) {
+                        console.log(err);
+                    }
+                    stream.on('done', function () {
+                        musicQueue.shift();
+                        console.log('next song' + musicQueue[0]);
+                    });
                     //}
                     bot.leaveVoiceChannel(voiceChannelID, function () { });
                     playingMusic = false;
