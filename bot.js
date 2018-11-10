@@ -298,7 +298,7 @@ let play = function play(voiceChannelID, video) {
                     //while (musicQueue.length > 0) {
                     console.log('are we there yet');
                     console.log(musicQueue[0]);
-                    ytdl(String(musicQueue[0]), { quality: 'highestaudio' }).pipe(stream, { end: false });
+                    ytdl(String(video), { quality: 'highestaudio' }).pipe(stream, { end: false });
 
                     stream.on('error', function (err) {
                         console.log(JSON.stringify(err));
