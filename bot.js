@@ -281,41 +281,37 @@ let birthday = function birthday(voiceChannelID) {
 };
 
 let play = function play(voiceChannelID, video) {
-    try {
-        console.log('Time to play music: ' + video);
-        if (playingMusic) {
-            //add to queue
-            musicQueue.push(video);
-        } else {
-            //add to queue and play
-            musicQueue.push(video);
-            bot.joinVoiceChannel(voiceChannelID, function (error, events) {
+    console.log('Time to play music: ' + video);
+    if (playingMusic) {
+        //add to queue
+        musicQueue.push(video);
+    } else {
+        //add to queue and play
+        musicQueue.push(video);
+        bot.joinVoiceChannel(voiceChannelID, function (error, events) {
+            if (error) return console.log('error: ' + error);
+            bot.getAudioContext(voiceChannelID, function (error, stream) {
                 if (error) return console.log('error: ' + error);
-                bot.getAudioContext(voiceChannelID, function (error, stream) {
-                    if (error) return console.log('error: ' + error);
-                    playingMusic = true;
-                    console.log('play music true');
-                    //while (musicQueue.length > 0) {
-                    console.log('are we there yet');
-                    console.log(musicQueue[0]);
-                    ytdl(String(video), { quality: 'highestaudio' }).pipe(stream, { end: true });
+                playingMusic = true;
+                console.log('play music true');
+                //while (musicQueue.length > 0) {
+                console.log('are we there yet');
+                console.log(musicQueue[0]);
+                ytdl(String(video), { quality: 'highestaudio' }).pipe(stream, { end: true });
 
-                    stream.on('error', function (err) {
-                        console.log(JSON.stringify(err));
-                    });
-                    stream.on('done', function () {
-                        musicQueue.shift();
-                        console.log('next song' + musicQueue[0]);
-                    });
-                    //}
-                    bot.leaveVoiceChannel(voiceChannelID, function () { });
-                    playingMusic = false;
-                    console.log('play music false');
+                stream.on('error', function (err) {
+                    console.log(JSON.stringify(err));
                 });
+                stream.on('done', function () {
+                    musicQueue.shift();
+                    console.log('next song' + musicQueue[0]);
+                });
+                //}
+                bot.leaveVoiceChannel(voiceChannelID, function () { });
+                playingMusic = false;
+                console.log('play music false');
             });
-        }
-    } catch (err) {
-        console.log(err);
+        });
     }
 };
 
