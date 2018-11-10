@@ -307,10 +307,9 @@ let play = function play(voiceChannelID, video) {
                     ytdl(String(musicQueue[0]), { quality: 'highestaudio' }).pipe(stream, { end: false });
                     if (musicQueue.length == 0) {
                         bot.leaveVoiceChannel(voiceChannelID, function () { });
+                        playingMusic = false;
                     }
                 });
-                
-                playingMusic = false;
                 console.log('play music false');
             });
         });
