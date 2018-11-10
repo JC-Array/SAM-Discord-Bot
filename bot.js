@@ -148,7 +148,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                 break;
             case 'test':
                 console.log(ytdl.getBasicInfo('https://youtu.be/E-cvKiFf0n0'));
-
+                break;
         }
     }
 });
@@ -280,13 +280,14 @@ let birthday = function birthday(voiceChannelID) {
     });
 };
 
-let play = function play(voiceChannelID, video) {
-    console.log('Time to play music: ' + video);
+let play = function play(voiceChannelID, video) {    
     if (playingMusic) {
         //add to queue
+        console.log('Add to music queue: ' + video);
         musicQueue.push(video);
     } else {
         //add to queue and play
+        console.log('Time to play music: ' + video);
         musicQueue.push(video);
         bot.joinVoiceChannel(voiceChannelID, function (error, events) {
             if (error) return console.log('error: ' + error);
