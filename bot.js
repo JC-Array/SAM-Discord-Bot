@@ -64,8 +64,10 @@ bot.on('message', function (user, userID, channelID, message, evt) {
     if (waitingForSearchReply == userID) {
         console.log('search reply ' + message);
         try {
+            var args = message.substring(1).split(' ');
             var video = 'https://youtu.be/' + searchReturn[parseInt(message) - 1].id.videoId;
-            play(voiceChannelID, video);
+            args[0] = video;
+            play(voiceChannelID, args);
         } catch (err) {
             console.log(err);
         }
@@ -117,7 +119,13 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                     });
                 });
                 break;
+            case 'clear':
+                musicQueue = [];
+                playingMusic = false;
+                break;
             case 'gtfo':
+                musicQueue = [];
+                playingMusic = false;
                 bot.leaveVoiceChannel(voiceChannelID, function () { });
                 break;
             case 'townhall':
@@ -130,7 +138,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                 });
                 break;
             case 'play':
-                play(voiceChannelID, args[0]);
+                play(voiceChannelID, args);
                 break;
             case 'search':
                 searchYoutube(youtubeToken, args);
@@ -284,11 +292,17 @@ let birthday = function birthday(voiceChannelID) {
     });
 };
 
-let play = function play(voiceChannelID, video) {    
+let play = function play(voiceChannelID, args) {
+    video = args[0]
     if (playingMusic) {
         //add to queue
-        console.log('Add to music queue: ' + video);
-        musicQueue.push(video);
+        if (ags[1].toLowerCase == 'top') {
+            console.log('Add to top of music queue: ' + video);
+            musicQueue.unshift(video);
+        } else {
+            console.log('Add to music queue: ' + video);
+            musicQueue.push(video);
+        }
     } else {
         //add to queue and play
         console.log('Time to play music: ' + video);
