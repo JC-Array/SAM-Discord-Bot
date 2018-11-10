@@ -145,6 +145,10 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                         queueString = queueString + element + "\n"
                     });
                 }
+                bot.sendMessage({
+                    to: channelID,
+                    message: queueString
+                });
                 break;
             case 'test':
                 console.log(ytdl.getBasicInfo('https://youtu.be/E-cvKiFf0n0'));
@@ -303,7 +307,7 @@ let play = function play(voiceChannelID, video) {
                 });
                 stream.on('done', function () {
                     musicQueue.shift();
-                    console.log('next song' + musicQueue[0]);
+                    console.log('next song ' + musicQueue[0]);
                     ytdl(String(musicQueue[0]), { quality: 'highestaudio' }).pipe(stream, { end: false });
                     if (musicQueue.length == 0) {
                         bot.leaveVoiceChannel(voiceChannelID, function () { });
