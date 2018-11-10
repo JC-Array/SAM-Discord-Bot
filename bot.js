@@ -295,7 +295,7 @@ let play = function play(voiceChannelID, video) {
                 playingMusic = true;
                 console.log('play music true');
                 console.log(musicQueue[0]);
-                ytdl(String(musicQueue[0]), { quality: 'highestaudio' }).pipe(stream, { end: true });
+                ytdl(String(musicQueue[0]), { quality: 'highestaudio' }).pipe(stream, { end: false });
 
                 stream.on('error', function (err) {
                     console.log(JSON.stringify(err));
@@ -303,7 +303,7 @@ let play = function play(voiceChannelID, video) {
                 stream.on('done', function () {
                     musicQueue.shift();
                     console.log('next song' + musicQueue[0]);
-                    ytdl(String(musicQueue[0]), { quality: 'highestaudio' }).pipe(stream, { end: true });
+                    ytdl(String(musicQueue[0]), { quality: 'highestaudio' }).pipe(stream, { end: false });
                     if (musicQueue.length == 0) {
                         bot.leaveVoiceChannel(voiceChannelID, function () { });
                     }
