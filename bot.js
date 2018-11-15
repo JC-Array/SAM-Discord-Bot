@@ -296,13 +296,19 @@ let play = function play(voiceChannelID, args) {
     video = args[0]
     if (playingMusic) {
         //add to queue
-        if (args[1].toLowerCase == 'top') {
-            console.log('Add to top of music queue: ' + video);
-            musicQueue.unshift(video);
+        if (args.length > 1) {
+            if (args[1].toLowerCase == 'top') {
+                console.log('Add to top of music queue: ' + video);
+                musicQueue.unshift(video);
+            } else {
+                console.log('Add to music queue: ' + video);
+                musicQueue.push(video);
+            }
         } else {
             console.log('Add to music queue: ' + video);
             musicQueue.push(video);
         }
+        
     } else {
         //add to queue and play
         console.log('Time to play music: ' + video);
