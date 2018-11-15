@@ -159,7 +159,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                 });
                 break;
             case 'test':
-                console.log(ytdl.getBasicInfo('https://youtu.be/E-cvKiFf0n0'));
+                //console.log(ytdl.getBasicInfo('https://youtu.be/E-cvKiFf0n0'));
                 break;
         }
     }
@@ -296,7 +296,7 @@ let play = function play(voiceChannelID, args) {
     video = args[0]
     if (playingMusic) {
         //add to queue
-        if (ags[1].toLowerCase == 'top') {
+        if (args[1].toLowerCase == 'top') {
             console.log('Add to top of music queue: ' + video);
             musicQueue.unshift(video);
         } else {
