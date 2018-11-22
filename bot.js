@@ -315,8 +315,8 @@ let play = function play(voiceChannelID, cmd, args) {
 let queue = function queue(voiceChannelID, cmd, args) {
     //if there is no queue
     if (musicQueue.length == 0) {
-        console.log('start music queue: ' + video);
-        musicQueue.push(video);
+        console.log('start music queue: ' + args[0]);
+        musicQueue.push(args[0]);
         play(voiceChannelID, 'start', []);
     }
 
@@ -324,16 +324,15 @@ let queue = function queue(voiceChannelID, cmd, args) {
     if (args.length > 1) {
         //add to top otherwise put at the end
         if (args[1].toLowerCase == 'top') {
-            console.log('Add to top of music queue: ' + video);
-            musicQueue.unshift(video);
+            console.log('Add to top of music queue: ' + args[0]);
+            musicQueue.unshift(args[0]);
         } else {
-            console.log('Add to music queue: ' + video);
-            musicQueue.push(video);
+            console.log('Add to music queue: ' + args[0]);
+            musicQueue.push(args[0]);
         }
     } else {
-        console.log('Add to music queue: ' + video);
-        musicQueue.push(video);
-
+        console.log('Add to music queue: ' + args[0]);
+        musicQueue.push(args[0]);
     }
     
 }
