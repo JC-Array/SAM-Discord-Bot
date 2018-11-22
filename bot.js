@@ -50,6 +50,10 @@ bot.on('ready', function (evt) {
     //});
     //console.log('Server info finished');
     users = JSON.parse(JSON.stringify(bot.servers["335603306879778819"].members));
+    bot.sendMessage({
+        to: '507703901663920141',
+        message: 'I have come online.'
+    });
 });
 
 bot.on('disconnect', function (errMsg, code) { });
@@ -237,7 +241,7 @@ let townhall = function townhall(voiceChannelID) {
 let play = function play(voiceChannelID, cmd, args) {
     //check to see if bot is in a voice channel
     console.log(bot.channel_id);
-    if(bot.channel_id <= 0) {
+    if(bot.channel_id == 'undefined') {
         //join voice channel
         bot.joinVoiceChannel(voiceChannelID, function (error, events) {
             if (error) return console.log('error: ' + error);
