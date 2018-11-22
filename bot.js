@@ -241,7 +241,7 @@ let townhall = function townhall(voiceChannelID) {
 let play = function play(voiceChannelID, cmd, args) {
     //check to see if bot is in a voice channel
     console.log(bot.channel_id);
-    if(bot.channel_id == 'undefined') {
+    if(!bot.channel_id) {
         //join voice channel
         bot.joinVoiceChannel(voiceChannelID, function (error, events) {
             if (error) return console.log('error: ' + error);
