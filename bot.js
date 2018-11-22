@@ -238,10 +238,13 @@ let townhall = function townhall(voiceChannelID) {
     play(voiceChannelID, 'townhall', []);
 };
 
+
+//check quality
+//heavy jutter
 let play = function play(voiceChannelID, cmd, args) {
     //check to see if bot is in a voice channel
-    console.log(bot.channel_id);
-    if(!bot.channel_id) {
+    console.log(bot);    
+    if (!bot.channel_id) {   //wrong syntax
         //join voice channel
         bot.joinVoiceChannel(voiceChannelID, function (error, events) {
             if (error) return console.log('error: ' + error);
