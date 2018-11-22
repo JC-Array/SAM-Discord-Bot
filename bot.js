@@ -67,7 +67,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
             var args = message.substring(1).split(' ');
             var video = 'https://youtu.be/' + searchReturn[parseInt(message) - 1].id.videoId;
             args[0] = video;
-            play(voiceChannelID, args);
+            queue(voiceChannelID, cmd, args);
         } catch (err) {
             console.log(err);
         }
@@ -137,8 +137,12 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                     message: 'http://bfy.tw/6iBM'
                 });
                 break;
+            case 'skip':
+                musicQueue.shift();
+                play(voiceChannelID, 'skip', args);
+                break;
             case 'play':
-                play(voiceChannelID, args);
+                queue(voiceChannelID, cmd, args);
                 break;
             case 'search':
                 searchYoutube(youtubeToken, args);
@@ -187,15 +191,9 @@ bot.on('voiceStateUpdate', function (event) {
             }
         }
         if (!flag) {
-            MHG(preVoiceChannelID);
+            play(preVoiceChannelID, 'userleft', []);
         }
     }
- 
-    //birthday function
-    if (event.d.user_id == "175539927956717568" && preVoiceChannelID == null) { 
-        //birthday(event.d.channel_id);
-    }
-
 });
 
 // LOG ALL EVENTS
@@ -216,38 +214,6 @@ let ping = function ping(user1, channelID1) {
     });
 };
 
-//Man I hate that guy function
-let MHG = function MHG(voiceChannelID) {
-
-    if (playingMusic) {
-        return;
-    }
-
-    bot.joinVoiceChannel(voiceChannelID, function (error, events) {
-        if (error) return console.log('error: ' + error);
-        bot.getAudioContext(voiceChannelID, function (error, stream) {
-            if (error) return console.log('error: ' + error);
-            //choose a random file
-            var fileNum = Math.floor((Math.random() * 5) + 1);
-            switch (fileNum) {
-                case 1: fs.createReadStream('soundClips/MHG1.mp3').pipe(stream, { end: false });
-                    break;
-                case 2: fs.createReadStream('soundClips/MHG2.mp3').pipe(stream, { end: false });
-                    break;
-                case 3: fs.createReadStream('soundClips/MHG3.mp3').pipe(stream, { end: false });
-                    break;
-                case 4: fs.createReadStream('soundClips/MHG4.mp3').pipe(stream, { end: false });
-                    break;
-                case 5: fs.createReadStream('soundClips/MHG5.mp3').pipe(stream, { end: false });
-                    break;
-            }
-            stream.on('done', function () {
-                bot.leaveVoiceChannel(voiceChannelID, function () { });
-            });
-        });
-    });
-};
-
 //Townhall
 let townhall = function townhall(voiceChannelID) {
     //move the users
@@ -263,83 +229,116 @@ let townhall = function townhall(voiceChannelID) {
             });
         }
     });
+
     //join and play intro
-    if (playingMusic) {
-        return;
+    play(voiceChannelID, 'townhall', []);
+};
+
+let play = function play(voiceChannelID, cmd, args) {
+    //check to see if bot is in a voice channel
+    console.log(bot.channel_id);
+    if(bot.channel_id <= 0) {
+        //join voice channel
+        bot.joinVoiceChannel(voiceChannelID, function (error, events) {
+            if (error) return console.log('error: ' + error);
+        });
     }
-    bot.joinVoiceChannel(voiceChannelID, function (error, events) {
-        if (error) return console.log('error: ' + error);
-        bot.getAudioContext(voiceChannelID, function (error, stream) {
-            if (error) return console.log('error: ' + error);
-            fs.createReadStream('soundClips/TownhallCall.mp3').pipe(stream, { end: false });
-            stream.on('done', function () {
-                bot.leaveVoiceChannel(voiceChannelID, function () { });
-            });
-        });
-    });
-};
 
-let birthday = function birthday(voiceChannelID) {
-    bot.joinVoiceChannel(voiceChannelID, function (error, events) {
+    //get audio context
+    bot.getAudioContext(voiceChannelID, function (error, stream) {
         if (error) return console.log('error: ' + error);
-        bot.getAudioContext(voiceChannelID, function (error, stream) {
-            if (error) return console.log('error: ' + error);
-            fs.createReadStream('soundClips/BDay.mp3').pipe(stream, { end: false });  
-            stream.on('done', function () {
-                bot.leaveVoiceChannel(voiceChannelID, function () { });
-            });
-        });
-    });
-};
+        //switch statement for commands related to audio currently playing
+        switch(cmd){
+            case 'skip':
 
-let play = function play(voiceChannelID, args) {
-    video = args[0]
-    if (playingMusic) {
-        //add to queue
-        if (args.length > 1) {
-            if (args[1].toLowerCase == 'top') {
-                console.log('Add to top of music queue: ' + video);
-                musicQueue.unshift(video);
-            } else {
-                console.log('Add to music queue: ' + video);
-                musicQueue.push(video);
+                break;
+            case 'birthday':
+                //check to see if this will override current song playing
+                fs.createReadStream('soundClips/BDay.mp3').pipe(stream, { end: false }); 
+                break;
+            case 'townhall':
+                //same as above
+                fs.createReadStream('soundClips/TownhallCall.mp3').pipe(stream, { end: false });
+                break;
+            case 'userleft':
+                if(playingMusic) {
+                    return;
+                }
+                //choose a random file
+                var fileNum = Math.floor((Math.random() * 5) + 1);
+                switch (fileNum) {
+                    case 1: fs.createReadStream('soundClips/MHG1.mp3').pipe(stream, { end: false });
+                        break;
+                    case 2: fs.createReadStream('soundClips/MHG2.mp3').pipe(stream, { end: false });
+                        break;
+                    case 3: fs.createReadStream('soundClips/MHG3.mp3').pipe(stream, { end: false });
+                        break;
+                    case 4: fs.createReadStream('soundClips/MHG4.mp3').pipe(stream, { end: false });
+                        break;
+                    case 5: fs.createReadStream('soundClips/MHG5.mp3').pipe(stream, { end: false });
+                        break;
+                }
+                break;
+            case 'start':
+                ytdl(String(musicQueue[0]), { quality: 'highestaudio' }).pipe(stream, { end: false });
+                break;
+        }
+
+        //when audio is finished playing
+        stream.on('done', function () {
+            //check to see if there is nothing in queue (for if there was an mp3 file playing)
+            if (musicQueue.length == 0) {
+                bot.leaveVoiceChannel(voiceChannelID, function () { });
+                playingMusic = false;
             }
+
+            //remove song that was playing
+            musicQueue.shift();
+
+            //check to see if queue is empty
+            if (musicQueue.length == 0) {
+                bot.leaveVoiceChannel(voiceChannelID, function () { });
+                playingMusic = false;
+            } else {
+                //play next song
+                console.log('next song ' + musicQueue[0]);
+                ytdl(String(musicQueue[0]), { quality: 'highestaudio' }).pipe(stream, { end: false });
+            }
+        });
+        //when error
+        stream.on('error', function (err) {
+            console.log(JSON.stringify(err));
+        });
+    });
+}
+
+let queue = function queue(voiceChannelID, cmd, args) {
+    //if there is no queue
+    if (musicQueue.length == 0) {
+        console.log('start music queue: ' + video);
+        musicQueue.push(video);
+        play(voiceChannelID, 'start', []);
+    }
+
+    //add to queue
+    if (args.length > 1) {
+        //add to top otherwise put at the end
+        if (args[1].toLowerCase == 'top') {
+            console.log('Add to top of music queue: ' + video);
+            musicQueue.unshift(video);
         } else {
             console.log('Add to music queue: ' + video);
             musicQueue.push(video);
         }
-        
     } else {
-        //add to queue and play
-        console.log('Time to play music: ' + video);
+        console.log('Add to music queue: ' + video);
         musicQueue.push(video);
-        bot.joinVoiceChannel(voiceChannelID, function (error, events) {
-            if (error) return console.log('error: ' + error);
-            bot.getAudioContext(voiceChannelID, function (error, stream) {
-                if (error) return console.log('error: ' + error);
-                playingMusic = true;
-                console.log('play music true');
-                console.log(musicQueue[0]);
-                ytdl(String(musicQueue[0]), { quality: 'highestaudio' }).pipe(stream, { end: false });
 
-                stream.on('error', function (err) {
-                    console.log(JSON.stringify(err));
-                });
-                stream.on('done', function () {
-                    musicQueue.shift();
-                    console.log('next song ' + musicQueue[0]);
-                    ytdl(String(musicQueue[0]), { quality: 'highestaudio' }).pipe(stream, { end: false });
-                    if (musicQueue.length == 0) {
-                        bot.leaveVoiceChannel(voiceChannelID, function () { });
-                        playingMusic = false;
-                    }
-                });
-                console.log('play music false');
-            });
-        });
     }
-};
+    
+}
 
+//search youtube for a song
 function searchYoutube(auth, args) {
     var service = google.youtube('v3');
     console.log('Youtube API request');
