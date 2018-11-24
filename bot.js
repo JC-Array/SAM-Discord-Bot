@@ -73,7 +73,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
             args[0] = video;
             queue(voiceChannelID, cmd, args);
         } catch (err) {
-            console.log(err);
+            console.log('not valid search response');
         }
 
         waitingForSearchReply = null;
