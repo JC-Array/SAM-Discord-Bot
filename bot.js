@@ -127,7 +127,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                 musicQueue = [];
                 playingMusic = false;
                 break;
-            case 'gtfo':
+            case 'gtfo':    //fix
                 musicQueue = [];
                 playingMusic = false;
                 bot.leaveVoiceChannel(voiceChannelID, function () { });
@@ -250,7 +250,7 @@ let play = function play(voiceChannelID, cmd, args) {
         bot.joinVoiceChannel(voiceChannelID, function (error, events) {
             if (error) return console.log('error: ' + error);
         });
-        setTimeout(play(voiceChannelID, cmd, args), 100);
+        //setTimeout(play(voiceChannelID, cmd, args), 100);
         return;
     }
 
