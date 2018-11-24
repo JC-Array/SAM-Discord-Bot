@@ -245,7 +245,7 @@ let play = function play(voiceChannelID, cmd, args) {
     //check to see if bot is in a voice channel
     console.log('Play was called');
     console.log(bot.servers["335603306879778819"].voiceSession);
-    if (bot.servers["335603306879778819"].voiceSession == 'null') {   //wrong syntax
+    if (bot.servers["335603306879778819"].voiceSession == null) {   //wrong syntax
         //join voice channel
         bot.joinVoiceChannel(voiceChannelID, function (error, events) {
             if (error) return console.log('error: ' + error);
