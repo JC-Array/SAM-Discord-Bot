@@ -243,6 +243,7 @@ let townhall = function townhall(voiceChannelID) {
 //heavy jutter
 let play = function play(voiceChannelID, cmd, args) {
     //check to see if bot is in a voice channel
+    console.log('Play was called');
     console.log(bot.servers["335603306879778819"].Server.voiceSession);
     if (bot.servers["335603306879778819"].Server.voiceSession == 'null') {   //wrong syntax
         //join voice channel
