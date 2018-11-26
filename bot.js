@@ -16,6 +16,8 @@ var musicQueue = [];
 
 var searchReturn;
 
+var tries;
+
 // handle the different authentication techniques
 let jsonToken = "";
 try {
@@ -243,16 +245,24 @@ let townhall = function townhall(voiceChannelID) {
 //check quality
 //heavy jutter
 let play = function play(voiceChannelID, cmd, args) {
+
+    if (voiceChannelID == null) {
+        console.log("no voice channel id");
+        return;
+    }
+
     //check to see if bot is in a voice channel
     console.log('Play was called');
-    console.log(bot.servers["335603306879778819"].voiceSession);
-    if (bot.servers["335603306879778819"].voiceSession == null) {
+    if (users["505565942072475668"].voice_channel_id == null && tries < 20) {
         //join voice channel
+        tries = tries + 1;
         bot.joinVoiceChannel(voiceChannelID, function (error, events) {
             if (error) return console.log('error: ' + error);
         });
-        //setTimeout(play(voiceChannelID, cmd, args), 100);
+        setTimeout(play(voiceChannelID, cmd, args), 100);
         return;
+    } else {
+        tries = 0;
     }
 
     //get audio context
