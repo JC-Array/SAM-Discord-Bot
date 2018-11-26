@@ -52,7 +52,6 @@ bot.on('ready', function (evt) {
     //});
     //console.log('Server info finished');
     users = JSON.parse(JSON.stringify(bot.servers["335603306879778819"].members));
-    console.log(bot.servers["335603306879778819"]);
     bot.sendMessage({
         to: '507703901663920141',
         message: 'I have come online.'
@@ -255,6 +254,7 @@ let play = function play(voiceChannelID, cmd, args) {
     console.log('Play was called');
     if (users["505565942072475668"].voice_channel_id == null && tries < 20) {
         //join voice channel
+        console.log("trying to join voice channel: " + tries);
         tries = tries + 1;
         bot.joinVoiceChannel(voiceChannelID, function (error, events) {
             if (error) return console.log('error: ' + error);
@@ -262,6 +262,7 @@ let play = function play(voiceChannelID, cmd, args) {
         setTimeout(play(voiceChannelID, cmd, args), 100);
         return;
     } else {
+        console.log("joined voice channel");
         tries = 0;
     }
 
