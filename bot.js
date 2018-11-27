@@ -252,8 +252,8 @@ let play = function play(voiceChannelID, cmd, args) {
 
     //check to see if bot is in a voice channel
     console.log('Play was called, tries at: ' + tries);
-    console.log(users["505565942072475668"].voice_channel_id);
-    if (users["505565942072475668"].voice_channel_id == null && tries < 20) {
+    console.log(users[505565942072475668].voice_channel_id);
+    if (users[505565942072475668].voice_channel_id == null && tries < 20) {
         //join voice channel
         console.log("trying to join voice channel: " + tries);
         tries = tries + 1;
