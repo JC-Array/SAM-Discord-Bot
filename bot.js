@@ -262,6 +262,10 @@ let play = function play(voiceChannelID, cmd, args) {
         });
         setTimeout(play(voiceChannelID, cmd, args), 200);
         return;
+    } else if (tries >= 20) {
+        console.log("over ran tries");
+        tries = 0;
+        return
     } else {
         console.log("joined voice channel");
         tries = 0;
