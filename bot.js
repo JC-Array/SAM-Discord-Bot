@@ -220,9 +220,7 @@ let ping = function ping(user1, channelID1) {
 let townhall = function townhall(voiceChannelID) {
     //move the users
     Object.keys(users).forEach((key) => {
-        console.log('user: ' + key);
         if (users[key].voice_channel_id != null) {
-            console.log('accepted');
             channelBlackList.forEach((channel) => {
                 if (channel == users[key].voice_channel_id) return;
                 bot.moveUserTo({ 'serverID': '335603306879778819', 'userID': key, 'channelID': voiceChannelID }, function (error, stream) {
@@ -237,8 +235,6 @@ let townhall = function townhall(voiceChannelID) {
 };
 
 
-//check quality
-//heavy jutter
 let play = function play(voiceChannelID, cmd, args) {
 
     if (voiceChannelID == null) {
@@ -248,7 +244,6 @@ let play = function play(voiceChannelID, cmd, args) {
 
     //check to see if bot is in a voice channel
     console.log('Play was called');
-    console.log(users["505565942072475668"].voice_channel_id);
     if (users["505565942072475668"].voice_channel_id == null) {
         //join voice channel
         console.log("trying to join voice channel");
@@ -258,7 +253,7 @@ let play = function play(voiceChannelID, cmd, args) {
         });
         return;
     } else {
-        console.log("joined voice channel");
+        console.log("joined voice channel or in a voice channel");
     }
 
     //get audio context
