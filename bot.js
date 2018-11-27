@@ -340,6 +340,7 @@ let queue = function queue(voiceChannelID, cmd, args) {
         console.log('start music queue: ' + args[0]);
         musicQueue.push(args[0]);
         play(voiceChannelID, 'start', []);
+        return;
     }
 
     //add to queue
