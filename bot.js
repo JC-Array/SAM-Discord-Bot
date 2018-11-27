@@ -258,8 +258,9 @@ let play = function play(voiceChannelID, cmd, args) {
         tries = tries + 1;
         bot.joinVoiceChannel(voiceChannelID, function (error, events) {
             if (error) return console.log('error: ' + error);
+            play(voiceChannelID, cmd, args);
         });
-        setTimeout(function () { play(voiceChannelID, cmd, args); }, 200);
+        //setTimeout(function () { play(voiceChannelID, cmd, args); }, 200);
         return;
     } else if (tries >= 20) {
         console.log("over ran tries");
