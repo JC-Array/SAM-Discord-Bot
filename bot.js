@@ -173,7 +173,6 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 // Detect changes in voice channels, if one leaves, kick off message
 bot.on('voiceStateUpdate', function (event) {
     console.log('Channel Update... user_id: ' + event.d.user_id + ' channel_id: ' + event.d.channel_id);
-    console.log(users);
 
     //update and grab previous channel
     var preVoiceChannelID = users[event.d.user_id].voice_channel_id;
