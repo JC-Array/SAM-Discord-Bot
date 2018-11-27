@@ -262,6 +262,7 @@ let play = function play(voiceChannelID, cmd, args) {
         //switch statement for commands related to audio currently playing
         switch(cmd){
             case 'skip':
+                ytdl(String(musicQueue[0]), { quality: 'highestaudio' }).unpipe(stream, { end: false });
                 ytdl(String(musicQueue[0]), { quality: 'highestaudio' }).pipe(stream, { end: false });
                 console.log("Skipped song");
                 break;
@@ -312,9 +313,7 @@ let play = function play(voiceChannelID, cmd, args) {
             }
 
             //remove song that was playing
-            console.log('before' + musicQueue);
             musicQueue.shift();
-            console.log('after' + musicQueue);
             //check to see if queue is empty
             if (musicQueue.length == 0) {
                 bot.leaveVoiceChannel(voiceChannelID, function () { });
@@ -381,7 +380,7 @@ function searchYoutube(auth, args) {
             console.log('No response found.');
         } else {
             var searchString = "";
-            console.log('Printing search: ');
+            //console.log('Printing search: ');
             for (i = 0; i < data.length; i++) {
                 searchString = searchString +  (i+1) + "\t";
                 searchString = searchString + "Channel: " + data[i].snippet.channelTitle + "\t";
