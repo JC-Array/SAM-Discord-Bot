@@ -307,11 +307,14 @@ let play = function play(voiceChannelID, cmd, args) {
             if (musicQueue.length == 0) {
                 bot.leaveVoiceChannel(voiceChannelID, function () { });
                 playingMusic = false;
+                console.log("Stopped mp3");
+                return;
             }
 
             //remove song that was playing
+            console.log('before' + musicQueue);
             musicQueue.shift();
-
+            console.log('after' + musicQueue);
             //check to see if queue is empty
             if (musicQueue.length == 0) {
                 bot.leaveVoiceChannel(voiceChannelID, function () { });
