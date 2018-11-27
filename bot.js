@@ -16,8 +16,6 @@ var musicQueue = [];
 
 var searchReturn;
 
-var tries = 0;
-
 // handle the different authentication techniques
 let jsonToken = "";
 try {
@@ -176,12 +174,13 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 bot.on('voiceStateUpdate', function (event) {
     console.log('Channel Update... user_id: ' + event.d.user_id + ' channel_id: ' + event.d.channel_id);
     console.log(users);
-    //dont proc if it is the bot
-    if (event.d.user_id == 505565942072475668) return;
 
     //update and grab previous channel
     var preVoiceChannelID = users[event.d.user_id].voice_channel_id;
     users = JSON.parse(JSON.stringify(bot.servers["335603306879778819"].members));
+
+    //dont proc if it is the bot
+    if (event.d.user_id == 505565942072475668) return;
 
     var flag = false;
     console.log('preVCI: ' + preVoiceChannelID);
@@ -249,26 +248,18 @@ let play = function play(voiceChannelID, cmd, args) {
     }
 
     //check to see if bot is in a voice channel
-    console.log('Play was called, tries at: ' + tries);
+    console.log('Play was called');
     console.log(users["505565942072475668"].voice_channel_id);
-    console.log(users["505565942072475668"].joined_at);
-    if (users["505565942072475668"].voice_channel_id == null && tries < 20) {
+    if (users["505565942072475668"].voice_channel_id == null) {
         //join voice channel
-        console.log("trying to join voice channel: " + tries);
-        tries = tries + 1;
+        console.log("trying to join voice channel");
         bot.joinVoiceChannel(voiceChannelID, function (error, events) {
             if (error) return console.log('error: ' + error);
             play(voiceChannelID, cmd, args);
         });
-        //setTimeout(function () { play(voiceChannelID, cmd, args); }, 200);
         return;
-    } else if (tries >= 20) {
-        console.log("over ran tries");
-        tries = 0;
-        return
     } else {
         console.log("joined voice channel");
-        tries = 0;
     }
 
     //get audio context
