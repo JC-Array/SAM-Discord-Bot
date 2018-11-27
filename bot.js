@@ -262,15 +262,18 @@ let play = function play(voiceChannelID, cmd, args) {
         //switch statement for commands related to audio currently playing
         switch(cmd){
             case 'skip':
-
+                ytdl(String(musicQueue[0]), { quality: 'highestaudio' }).pipe(stream, { end: false });
+                console.log("Skipped song");
                 break;
             case 'birthday':
                 //check to see if this will override current song playing
-                fs.createReadStream('soundClips/BDay.mp3').pipe(stream, { end: false }); 
+                fs.createReadStream('soundClips/BDay.mp3').pipe(stream, { end: false });
+                console.log("Birthday tone");
                 break;
             case 'townhall':
                 //same as above
                 fs.createReadStream('soundClips/TownhallCall.mp3').pipe(stream, { end: false });
+                console.log("Townhall tone");
                 break;
             case 'userleft':
                 if(playingMusic) {
@@ -290,9 +293,11 @@ let play = function play(voiceChannelID, cmd, args) {
                     case 5: fs.createReadStream('soundClips/MHG5.mp3').pipe(stream, { end: false });
                         break;
                 }
+                console.log("User left tone");
                 break;
             case 'start':
                 ytdl(String(musicQueue[0]), { quality: 'highestaudio' }).pipe(stream, { end: false });
+                console.log("Start songs");
                 break;
         }
 
@@ -311,6 +316,8 @@ let play = function play(voiceChannelID, cmd, args) {
             if (musicQueue.length == 0) {
                 bot.leaveVoiceChannel(voiceChannelID, function () { });
                 playingMusic = false;
+                console.log("Stopped music");
+                return;
             } else {
                 //play next song
                 console.log('next song ' + musicQueue[0]);
