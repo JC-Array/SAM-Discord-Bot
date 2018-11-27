@@ -175,6 +175,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 // Detect changes in voice channels, if one leaves, kick off message
 bot.on('voiceStateUpdate', function (event) {
     console.log('Channel Update... user_id: ' + event.d.user_id + ' channel_id: ' + event.d.channel_id);
+    console.log(users);
     //dont proc if it is the bot
     if (event.d.user_id == 505565942072475668) return;
 
@@ -197,7 +198,6 @@ bot.on('voiceStateUpdate', function (event) {
             play(preVoiceChannelID, 'userleft', []);
         }
     }
-    console.log(users);
 });
 
 // LOG ALL EVENTS
