@@ -168,9 +168,6 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                     message: queueString
                 });
                 break;
-            case 'test':
-                //console.log(ytdl.getBasicInfo('https://youtu.be/E-cvKiFf0n0'));
-                break;
         }
     }
 });
@@ -200,6 +197,7 @@ bot.on('voiceStateUpdate', function (event) {
             play(preVoiceChannelID, 'userleft', []);
         }
     }
+    console.log(users);
 });
 
 // LOG ALL EVENTS
