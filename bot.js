@@ -142,7 +142,6 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                 });
                 break;
             case 'skip':
-                musicQueue.shift();
                 play(voiceChannelID, 'skip', args);
                 break;
             case 'play':
@@ -263,6 +262,7 @@ let play = function play(voiceChannelID, cmd, args) {
         switch(cmd){
             case 'skip':
                 ytdl(String(musicQueue[0]), { quality: 'highestaudio' }).unpipe(stream, { end: false });
+                musicQueue.shift();
                 ytdl(String(musicQueue[0]), { quality: 'highestaudio' }).pipe(stream, { end: false });
                 console.log("Skipped song");
                 break;
