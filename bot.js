@@ -261,7 +261,7 @@ let play = function play(voiceChannelID, cmd, args) {
         //switch statement for commands related to audio currently playing
         switch(cmd){
             case 'skip':
-                ytdl(String(musicQueue[0]), { quality: 'highestaudio' }).unpipe(stream, { end: false });
+                stream.end();
                 console.log("Skipped song");        //will unpipe and then event done will play followed by shifting to the next song
                 break;
             case 'birthday':
