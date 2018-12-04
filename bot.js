@@ -305,6 +305,7 @@ let play = function play(voiceChannelID, cmd, args) {
                 break;
             case 'start':
                 readStream = ytdl(String(musicQueue[0]), { quality: 'highestaudio' });
+                console.log(readStream);
                 readStream.pipe(stream, { end: false });
                 console.log("Start songs");
                 break;
