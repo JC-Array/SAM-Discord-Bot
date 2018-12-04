@@ -165,6 +165,9 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                     message: queueString
                 });
                 break;
+            case 'read':
+                play(voiceChannelID, 'read', args);
+                break;
         }
     }
 });
@@ -262,7 +265,6 @@ let play = function play(voiceChannelID, cmd, args) {
         //switch statement for commands related to audio currently playing
         switch(cmd){
             case 'skip':
-                console.log(readStream);
                 readStream.unpipe(stream);
                 console.log("Skipped song");        //will unpipe and then event done will play followed by shifting to the next song
                 break;
@@ -305,9 +307,11 @@ let play = function play(voiceChannelID, cmd, args) {
                 break;
             case 'start':
                 readStream = ytdl(String(musicQueue[0]), { quality: 'highestaudio' });
-                console.log(readStream);
                 readStream.pipe(stream, { end: false });
                 console.log("Start songs");
+                break;
+            case 'read':
+                console.log(readStream);
                 break;
         }
 
