@@ -262,7 +262,7 @@ let play = function play(voiceChannelID, cmd, args) {
         //switch statement for commands related to audio currently playing
         switch(cmd){
             case 'skip':
-                console.log(readstream);
+                console.log(readStream);
                 readStream.unpipe(stream);
                 console.log("Skipped song");        //will unpipe and then event done will play followed by shifting to the next song
                 break;
