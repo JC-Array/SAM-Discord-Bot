@@ -257,21 +257,24 @@ let play = function play(voiceChannelID, cmd, args) {
 
     //get audio context
     bot.getAudioContext(voiceChannelID, function (error, stream) {
+        var readStream;
         if (error) return console.log('error: ' + error);
         //switch statement for commands related to audio currently playing
         switch(cmd){
             case 'skip':
-                stream.end();
+                readStream.unpipe(stream);
                 console.log("Skipped song");        //will unpipe and then event done will play followed by shifting to the next song
                 break;
             case 'birthday':
                 //check to see if this will override current song playing
-                fs.createReadStream('soundClips/BDay.mp3').pipe(stream, { end: false });
+                readStream = fs.createReadStream('soundClips/BDay.mp3');
+                readStream.pipe(stream, { end: false });
                 console.log("Birthday tone");
                 break;
             case 'townhall':
                 //same as above
-                fs.createReadStream('soundClips/TownhallCall.mp3').pipe(stream, { end: false });
+                readStream = fs.createReadStream('soundClips/TownhallCall.mp3');
+                readStream.pipe(stream, { end: false });
                 console.log("Townhall tone");
                 break;
             case 'userleft':
@@ -281,21 +284,27 @@ let play = function play(voiceChannelID, cmd, args) {
                 //choose a random file
                 var fileNum = Math.floor((Math.random() * 5) + 1);
                 switch (fileNum) {
-                    case 1: fs.createReadStream('soundClips/MHG1.mp3').pipe(stream, { end: false });
+                    case 1: readStream = fs.createReadStream('soundClips/MHG1.mp3');
+                        readStream.pipe(stream, { end: false });
                         break;
-                    case 2: fs.createReadStream('soundClips/MHG2.mp3').pipe(stream, { end: false });
+                    case 2: readStream = fs.createReadStream('soundClips/MHG2.mp3');
+                        readStream.pipe(stream, { end: false });
                         break;
-                    case 3: fs.createReadStream('soundClips/MHG3.mp3').pipe(stream, { end: false });
+                    case 3: readStream = fs.createReadStream('soundClips/MHG3.mp3');
+                        readStream.pipe(stream, { end: false });
                         break;
-                    case 4: fs.createReadStream('soundClips/MHG4.mp3').pipe(stream, { end: false });
+                    case 4: readStream = fs.createReadStream('soundClips/MHG4.mp3');
+                        readStream.pipe(stream, { end: false });
                         break;
-                    case 5: fs.createReadStream('soundClips/MHG5.mp3').pipe(stream, { end: false });
+                    case 5: readStream = fs.createReadStream('soundClips/MHG5.mp3');
+                        readStream.pipe(stream, { end: false });
                         break;
                 }
                 console.log("User left tone");
                 break;
             case 'start':
-                ytdl(String(musicQueue[0]), { quality: 'highestaudio' }).pipe(stream, { end: false });
+                readStream = ytdl(String(musicQueue[0]), { quality: 'highestaudio' });
+                readStream.pipe(stream, { end: false });
                 console.log("Start songs");
                 break;
         }
@@ -321,7 +330,8 @@ let play = function play(voiceChannelID, cmd, args) {
             } else {
                 //play next song
                 console.log('next song ' + musicQueue[0]);
-                ytdl(String(musicQueue[0]), { quality: 'highestaudio' }).pipe(stream, { end: false });
+                readStream = ytdl(String(musicQueue[0]), { quality: 'highestaudio' });
+                readStream.pipe(stream, { end: false });
             }
         });
         //when error
