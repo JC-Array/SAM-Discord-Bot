@@ -198,6 +198,11 @@ bot.on('voiceStateUpdate', function (event) {
             play(preVoiceChannelID, 'userleft', []);
         }
     }
+
+    //play christmas tone
+    if (preVoiceChannelID == null) {    //if user joins channel
+        play(event.d.channel_id, 'christmas', []);
+    }
 });
 
 // LOG ALL EVENTS
@@ -273,6 +278,12 @@ let play = function play(voiceChannelID, cmd, args) {
                 readStream = fs.createReadStream('soundClips/BDay.mp3');
                 readStream.pipe(stream, { end: false });
                 console.log("Birthday tone");
+                break;
+            case 'christmas':
+                //same as above
+                readStream = fs.createReadStream('soundClips/MerryChristmas.mp3');
+                readStream.pipe(stream, { end: false });
+                console.log("Townhall tone");
                 break;
             case 'townhall':
                 //same as above
