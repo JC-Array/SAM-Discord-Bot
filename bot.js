@@ -201,7 +201,7 @@ bot.on('voiceStateUpdate', function (event) {
 
     //play christmas tone
     if (preVoiceChannelID == null) {    //if user joins channel
-        play(event.d.channel_id, 'christmas', []);
+        //play(event.d.channel_id, 'christmas', []);
     }
 });
 
