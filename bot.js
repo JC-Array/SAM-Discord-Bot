@@ -446,6 +446,7 @@ function searchYoutube(auth, args) {
             auth: auth,
             part: 'contentDetails',
             videoId: searchIds,
+            filter: 'id',
             q: args.join(' '),
             type: 'video'
 
