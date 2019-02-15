@@ -407,7 +407,7 @@ function searchYoutube(auth, args) {
     console.log('Youtube API request');
     service.search.list({
         auth: auth,
-        part: 'snippet, contentDetails',
+        part: 'snippet,contentDetails',
         q: args.join(' '),
         type: 'video',
         maxResults: '10'
