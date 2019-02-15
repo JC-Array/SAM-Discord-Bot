@@ -276,10 +276,11 @@ let play = function play(voiceChannelID, cmd, args) {
         //switch statement for commands related to audio currently playing
         switch(cmd){
             case 'skip':
+                //trash skip function, but can't find other way to fix
                 bot.leaveVoiceChannel(voiceChannelID, function () { });
                 musicQueue.shift();
                 bot.joinVoiceChannel(voiceChannelID, function (error, events) {  });
-                console.log("Skipped song");        //will unpipe and then event done will play followed by shifting to the next song
+                console.log("Skipped song");
                 break;
             case 'birthday':
                 //check to see if this will override current song playing
