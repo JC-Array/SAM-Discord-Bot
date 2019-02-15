@@ -55,7 +55,7 @@ bot.on('ready', function (evt) {
     users = JSON.parse(JSON.stringify(bot.servers["335603306879778819"].members));
     bot.sendMessage({
         to: '507703901663920141',
-        message: 'I have come online.'
+        message: ':robot: I am back :robot:'
     });
 });
 
@@ -424,11 +424,16 @@ function searchYoutube(auth, args) {
         var data1 = response.data.items;
      });
 
-    for (i = 0; i < data.length; i++) {
+    if (data1.length == 0) {
+        console.log('No response found.');
+        return;
+    }
+
+    for (i = 0; i < data1.length; i++) {
         if (searchIds == '-1') {
             searchIds = data[i].id;
         } else {
-            searchIds = searchIds + ',' + data[i].id
+            searchIds = searchIds + ',' + data1[i].id
         }
      }
 
@@ -451,23 +456,20 @@ function searchYoutube(auth, args) {
         console.log('Response: ' + response.status + ' ' + response.statusText);
         var data1 = response.data.items;
     });
-    
-    if (data1.length == 0) {
-        console.log('No response found.');
-    } else {
-        var searchString = "```";
-        //console.log('Printing search: ');
-        for (i = 0; i < data.length; i++) {
-            searchString = searchString + (i + 1) + "\t";
-            searchString = searchString + data1[i].snippet.title + "\t";
-            searchString = searchString + "**[" + data2[i].contentDetails.duration + "]**" + "\n\n";
-        }
-        searchString = searchString + "**Type a number to make a choice, Type CANCEL to exit**\n```";
-        bot.sendMessage({
-            to: '507703901663920141',
-            message: searchString
-        });
-        searchReturn = JSON.parse(JSON.stringify(data));
-        console.log(searchReturn);
+
+    var searchString = "```";
+    //console.log('Printing search: ');
+    for (i = 0; i < data.length; i++) {
+        searchString = searchString + (i + 1) + "\t";
+        searchString = searchString + data1[i].snippet.title + "\t";
+        searchString = searchString + "**[" + data2[i].contentDetails.duration + "]**" + "\n\n";
     }
+    searchString = searchString + "**Type a number to make a choice, Type CANCEL to exit**\n```";
+    bot.sendMessage({
+        to: '507703901663920141',
+        message: searchString
+    });
+    searchReturn = JSON.parse(JSON.stringify(data));
+    console.log(searchReturn);
+
 }
