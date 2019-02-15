@@ -425,15 +425,14 @@ function searchYoutube(auth, args) {
             //console.log('Printing search: ');
             for (i = 0; i < data.length; i++) {
                 searchString = searchString +  (i+1) + "\t";
-                searchString = searchString + "Channel: " + data[i].snippet.channelTitle + "\t";
-                searchString = searchString + "Title: " + data[i].snippet.title + "\n";
+                searchString = searchString + data[i].snippet.title + "\n";
             }
             bot.sendMessage({
                 to: '507703901663920141',
                 message: searchString
             });
             searchReturn = JSON.parse(JSON.stringify(data));
-            //console.log(searchReturn);
+            console.log(searchReturn);
         }
     });
 }
