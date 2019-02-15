@@ -421,6 +421,7 @@ function searchYoutube(auth, args) {
         }
         console.log('Response: ' + response.status + ' ' + response.statusText);
         var data1 = response.data.items;
+        console.log(data1);
 
         //prep for call 2
         if (data1.length == 0) {

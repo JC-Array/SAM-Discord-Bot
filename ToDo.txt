@@ -3,22 +3,16 @@ Implement gain on audio
 	-to be decided which one
 	-default audio volume to be "not blastin like a mf" when at 100% through an overall gain change
 
-Move bot to AWS
+Move bot to self hosting
 
 Implement a database to store configurations and increase flexability
 	-track users hours in games or voice channels
 	-bug reporting and bot suggestions in discord
 
-Add command to move users to a channel
-
-Add command to play specific audio file stored
-
 Add music command
 	-save audio playlists
 	-play music by genera
 	-play music by artist
-	-search titles
-	-given youtube link
 	-profile members music tastes to enhance automatic audio selection
 
 "Increase token security"
@@ -26,10 +20,6 @@ Add music command
 Test possibilities and fesability of Voice to Text implementation
 
 Add introduction when a new user joins the discord and joins a voice channel for the first time
-
-Add introduction for when a user joins a voice channel
-
-Something something auto move people depending on game something something
 
 Move command functions into a seprate file
 	-do correct function documentation when done
