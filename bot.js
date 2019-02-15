@@ -276,9 +276,10 @@ let play = function play(voiceChannelID, cmd, args) {
         //switch statement for commands related to audio currently playing
         switch(cmd){
             case 'skip':
-                //readStream.unpipe(stream);
+                bot.leaveVoiceChannel(voiceChannelID, function () { });
+                musicQueue.shift();
+                bot.joinVoiceChannel(voiceChannelID, function (error, events) {  });
                 console.log("Skipped song");        //will unpipe and then event done will play followed by shifting to the next song
-                console.log(stream);
                 break;
             case 'birthday':
                 //check to see if this will override current song playing
@@ -357,14 +358,12 @@ let play = function play(voiceChannelID, cmd, args) {
                 bot.leaveVoiceChannel(voiceChannelID, function () { });
                 playingMusic = false;
                 console.log("Stopped music");
-                console.log(stream);
                 return;
             } else {
                 //play next song
                 console.log('next song ' + musicQueue[0]);
                 readStream = ytdl(String(musicQueue[0]), { quality: 'highestaudio' });
                 readStream.pipe(stream, { end: false });
-                console.log(stream);
             }
         });
         //when error
