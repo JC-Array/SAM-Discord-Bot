@@ -431,9 +431,9 @@ function searchYoutube(auth, args) {
 
         for (i = 0; i < data1.length; i++) {
             if (searchIds == '-1') {
-                searchIds = data1[i].id;
+                searchIds = data1[i].id.videoId;
             } else {
-                searchIds = searchIds + ',' + data1[i].id
+                searchIds = searchIds + ',' + data1[i].id.videoId;
             }
         }
 
