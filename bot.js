@@ -403,11 +403,10 @@ let queue = function queue(voiceChannelID, cmd, args) {
 
 //search youtube for a song
 function searchYoutube(auth, args) {
-    var data1;  //search
-    var data2;  //duration
     var searchIds = '-1';
-
     var service = google.youtube('v3');
+
+    //call 1
     console.log('Youtube API request for searching');
     service.search.list({
         auth: auth,
@@ -421,55 +420,58 @@ function searchYoutube(auth, args) {
             return;
         }
         console.log('Response: ' + response.status + ' ' + response.statusText);
-        data1 = response.data.items;
-     });
+        var data1 = response.data.items;
 
-    if (data1.length == 0) {
-        console.log('No response found.');
-        return;
-    }
-
-    for (i = 0; i < data1.length; i++) {
-        if (searchIds == '-1') {
-            searchIds = data[i].id;
-        } else {
-            searchIds = searchIds + ',' + data1[i].id
-        }
-     }
-
-    console.log('search ids');
-    console.log(searchIds);
-
-    console.log('Youtube API request for duration');
-    service.videos.list({
-        auth: auth,
-        part: 'contentDetails',
-        videoId: searchIds,
-        q: args.join(' '),
-        type: 'video'
-
-    }, function (err, response) {
-        if (err) {
-            console.log('The API returned an error: ' + err);
+        //prep for call 2
+        if (data1.length == 0) {
+            console.log('No response found.');
             return;
         }
-        console.log('Response: ' + response.status + ' ' + response.statusText);
-        var data1 = response.data.items;
-    });
 
-    var searchString = "```";
-    //console.log('Printing search: ');
-    for (i = 0; i < data1.length; i++) {
-        searchString = searchString + (i + 1) + "\t";
-        searchString = searchString + data1[i].snippet.title + "\t";
-        searchString = searchString + "**[" + data2[i].contentDetails.duration + "]**" + "\n\n";
-    }
-    searchString = searchString + "**Type a number to make a choice, Type CANCEL to exit**\n```";
-    bot.sendMessage({
-        to: '507703901663920141',
-        message: searchString
-    });
-    searchReturn = JSON.parse(JSON.stringify(data));
-    console.log(searchReturn);
+        for (i = 0; i < data1.length; i++) {
+            if (searchIds == '-1') {
+                searchIds = data[i].id;
+            } else {
+                searchIds = searchIds + ',' + data1[i].id
+            }
+        }
 
-}
+        console.log('search ids');
+        console.log(searchIds);
+
+        //call 2
+        console.log('Youtube API request for duration');
+        service.videos.list({
+            auth: auth,
+            part: 'contentDetails',
+            videoId: searchIds,
+            q: args.join(' '),
+            type: 'video'
+
+        }, function (err, response) {
+            if (err) {
+                console.log('The API returned an error: ' + err);
+                return;
+            }
+            console.log('Response: ' + response.status + ' ' + response.statusText);
+            var data2 = response.data.items;
+
+            //print search results
+            var searchString = "```";
+            //console.log('Printing search: ');
+            for (i = 0; i < data1.length; i++) {
+                searchString = searchString + (i + 1) + "\t";
+                searchString = searchString + data1[i].snippet.title + "\t";
+                searchString = searchString + "**[" + data2[i].contentDetails.duration + "]**" + "\n\n";
+            }
+            searchString = searchString + "**Type a number to make a choice, Type CANCEL to exit**\n```";
+            bot.sendMessage({
+                to: '507703901663920141',
+                message: searchString
+            });
+            searchReturn = JSON.parse(JSON.stringify(data));
+            console.log(searchReturn);
+        });
+     });
+}    
+
