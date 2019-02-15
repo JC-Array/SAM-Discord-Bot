@@ -8,6 +8,7 @@ var google = require('googleapis').google;
 var users;
 var channelWhiteList = ['507390751001542667', '507390809922994177', '507390777446498304', '507390932233224202', '507391013984403466', '507391055361212417', '507387673204490240'];
 var channelBlackList = ['507390016234979328'];
+var tau = '301151072087441408';
 
 var waitingForSearchReply;
 var playingMusic = false;
@@ -168,6 +169,10 @@ bot.on('message', function (user, userID, channelID, message, evt) {
             case 'read':
                 play(voiceChannelID, 'read', args);
                 break;
+            case 'billiam':
+                voiceChannelID = users[tau].voice_channel_id
+                play(voiceChannelID, 'billiam', args);
+                break;
         }
     }
 });
@@ -327,6 +332,12 @@ let play = function play(voiceChannelID, cmd, args) {
                 break;
             case 'read':
                 console.log(readStream);
+                break;
+            case 'billiam':
+                //check to see if this will override current song playing
+                readStream = fs.createReadStream('soundClips/HoM.mp3');
+                readStream.pipe(stream, { end: false });
+                console.log("billiam tone");
                 break;
         }
 
