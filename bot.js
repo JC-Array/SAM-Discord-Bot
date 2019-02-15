@@ -421,7 +421,7 @@ function searchYoutube(auth, args) {
             return;
         }
         console.log('Response: ' + response.status + ' ' + response.statusText);
-        var data1 = response.data.items;
+        data1 = response.data.items;
      });
 
     if (data1.length == 0) {
@@ -459,7 +459,7 @@ function searchYoutube(auth, args) {
 
     var searchString = "```";
     //console.log('Printing search: ');
-    for (i = 0; i < data.length; i++) {
+    for (i = 0; i < data1.length; i++) {
         searchString = searchString + (i + 1) + "\t";
         searchString = searchString + data1[i].snippet.title + "\t";
         searchString = searchString + "**[" + data2[i].contentDetails.duration + "]**" + "\n\n";
