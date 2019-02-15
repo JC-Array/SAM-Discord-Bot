@@ -17,6 +17,8 @@ var musicQueue = [];
 
 var searchReturn;
 
+var readStream;
+
 // handle the different authentication techniques
 let jsonToken = "";
 try {
@@ -267,7 +269,7 @@ let play = function play(voiceChannelID, cmd, args) {
     } else {
         console.log("joined voice channel or in a voice channel");
     }
-    var readStream;
+    
     //get audio context
     bot.getAudioContext(voiceChannelID, function (error, stream) {
         if (error) return console.log('error: ' + error);
