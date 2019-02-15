@@ -267,16 +267,14 @@ let play = function play(voiceChannelID, cmd, args) {
     } else {
         console.log("joined voice channel or in a voice channel");
     }
-
+    var readStream;
     //get audio context
     bot.getAudioContext(voiceChannelID, function (error, stream) {
-        var readStream;
         if (error) return console.log('error: ' + error);
         //switch statement for commands related to audio currently playing
         switch(cmd){
             case 'skip':
-                //readStream.unpipe(stream);
-                stream.end();
+                readStream.unpipe(stream);
                 console.log("Skipped song");        //will unpipe and then event done will play followed by shifting to the next song
                 break;
             case 'birthday':
