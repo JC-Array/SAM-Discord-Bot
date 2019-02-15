@@ -276,7 +276,8 @@ let play = function play(voiceChannelID, cmd, args) {
         //switch statement for commands related to audio currently playing
         switch(cmd){
             case 'skip':
-                //trash skip function, but can't find other way to fix
+                break;
+                //trash skip function, but can't find other way to fix, doesn't work ether
                 bot.leaveVoiceChannel(voiceChannelID, function () { });
                 musicQueue.shift();
                 bot.joinVoiceChannel(voiceChannelID, function (error, events) {  });
