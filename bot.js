@@ -407,7 +407,7 @@ function searchYoutube(auth, args) {
     console.log('Youtube API request');
     service.search.list({
         auth: auth,
-        part: 'snippet',
+        part: 'snippet, contentDetails',
         q: args.join(' '),
         type: 'video',
         maxResults: '10'
@@ -421,12 +421,14 @@ function searchYoutube(auth, args) {
         if (data.length == 0) {
             console.log('No response found.');
         } else {
-            var searchString = "";
+            var searchString = "```";
             //console.log('Printing search: ');
             for (i = 0; i < data.length; i++) {
                 searchString = searchString +  (i+1) + "\t";
-                searchString = searchString + data[i].snippet.title + "\n";
+                searchString = searchString + data[i].snippet.title + "\t";
+                searchString = searchString + "**[" + data[i].contentDetails.duration + "]**" + "\n\n";
             }
+            searchString = searchString + "**Type a number to make a choice, Type CANCEL to exit**\n```";
             bot.sendMessage({
                 to: '507703901663920141',
                 message: searchString
