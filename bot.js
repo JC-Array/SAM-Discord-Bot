@@ -75,8 +75,16 @@ bot.on('message', function (user, userID, channelID, message, evt) {
             var video = 'https://youtu.be/' + searchReturn[parseInt(message) - 1].id.videoId;
             args[0] = video;
             queue(voiceChannelID, cmd, args);
+            bot.sendMessage({
+                to: '507703901663920141',
+                message: 'added to queue' + video
+            });
         } catch (err) {
             console.log('not valid search response');
+            bot.sendMessage({
+                to: '507703901663920141',
+                message: 'not valid search response'
+            });
         }
 
         waitingForSearchReply = null;
@@ -470,7 +478,7 @@ function searchYoutube(auth, args) {
                 to: '507703901663920141',
                 message: searchString
             });
-            //searchReturn = JSON.parse(JSON.stringify(data1));
+            searchReturn = JSON.parse(JSON.stringify(data1));
             //console.log(searchReturn);
         });
      });
