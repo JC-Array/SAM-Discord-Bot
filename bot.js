@@ -480,7 +480,7 @@ function searchYoutube(auth, args) {
 function convert_time(duration) {
     var newTime = "";
 
-    for (duration.length) {
+    for (duration.length()) {
         switch (duration[i]) {
             case 'P':
                 break;
