@@ -151,7 +151,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
             case 'help':    //add actual help later
                 bot.sendMessage({
                     to: channelID,
-                    message: "**COMMANDS**\n
+                    message: '**COMMANDS**\n
                         **ping:** PONG!\n
                         **play:** Play a song with a youtube link\n
                         **search:** Search for a song\n
@@ -162,7 +162,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                         **townhall:** Welcome the King\n
                         **getpunked:** Daft Punked\n
                         **all:** For one\n
-                        for fruther documentation: http://bfy.tw/6iBM"
+                        for fruther documentation: http://bfy.tw/6iBM'
                 });
                 break;
             case 'skip':
