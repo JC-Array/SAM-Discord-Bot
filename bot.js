@@ -149,20 +149,22 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                 townhall(voiceChannelID);
                 break;
             case 'help':    //add actual help later
+                var helpMessage = "";
+                helpMessage += '**COMMANDS**\n';
+                helpMessage += '** ping:** PONG!\n';
+                helpMessage += '** play:** Play a song with a youtube link\n';
+                helpMessage += '** search:** Search for a song\n';
+                helpMessage += '** queue:** Prints the song queue\n';
+                helpMessage += '** skip:** Skip song ** not working **\n';
+                helpMessage += '** clear:** Clear the music queue\n';
+                helpMessage += '** gtfo:** Attempts to make the bot leave\n';
+                helpMessage += '** townhall:** Welcome the King\n';
+                helpMessage += '** getpunked:** Daft Punked\n';
+                helpMessage += '** all:** For one\n';
+                helpMessage += 'for fruther documentation: http://bfy.tw/6iBM';
                 bot.sendMessage({
                     to: channelID,
-                    message: '**COMMANDS**\n
-                        **ping:** PONG!\n
-                        **play:** Play a song with a youtube link\n
-                        **search:** Search for a song\n
-                        **queue:** Prints the song queue\n
-                        **skip:** Skip song ** not working **\n
-                        **clear:** Clear the music queue\n
-                        **gtfo:** Attempts to make the bot leave\n
-                        **townhall:** Welcome the King\n
-                        **getpunked:** Daft Punked\n
-                        **all:** For one\n
-                        for fruther documentation: http://bfy.tw/6iBM'
+                    message: helpMessage
                 });
                 break;
             case 'skip':
