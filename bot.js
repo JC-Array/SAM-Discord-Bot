@@ -139,6 +139,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                 break;
             case 'clear':
                 musicQueueSource = [];
+                musicQueueTime = [];
                 playingMusic = false;
                 break;
             case 'gtfo':    //fix
@@ -305,6 +306,7 @@ let play = function play(voiceChannelID, cmd, args) {
                 //trash skip function, but can't find other way to fix, doesn't work ether
                 bot.leaveVoiceChannel(voiceChannelID, function () { });
                 musicQueueSource.shift();
+                musicQueueTime.shift();
                 bot.joinVoiceChannel(voiceChannelID, function (error, events) {  });
                 console.log("Skipped song");
                 break;
