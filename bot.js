@@ -421,7 +421,7 @@ function searchYoutube(auth, args) {
         }
         console.log('Response: ' + response.status + ' ' + response.statusText);
         var data1 = response.data.items;
-        console.log(data1);
+        //console.log(data1);
 
         //prep for call 2
         if (data1.length == 0) {
@@ -437,8 +437,8 @@ function searchYoutube(auth, args) {
             }
         }
 
-        console.log('search ids');
-        console.log(searchIds);
+        //console.log('search ids');
+        //console.log(searchIds);
 
         //call 2
         console.log('Youtube API request for duration');
@@ -458,21 +458,50 @@ function searchYoutube(auth, args) {
             var data2 = response.data.items;
 
             //print search results
-            var searchString = "```";
+            var searchString = "";
             //console.log('Printing search: ');
             for (i = 0; i < data1.length; i++) {
                 searchString = searchString + (i + 1) + "\t";
                 searchString = searchString + data1[i].snippet.title + "\t";
-                searchString = searchString + "**[" + data2[i].contentDetails.duration + "]**" + "\n\n";
+                searchString = searchString + "**[" + convert_time(data2[i].contentDetails.duration) + "]**" + "\n\n";
             }
-            searchString = searchString + "**Type a number to make a choice, Type CANCEL to exit**\n```";
+            searchString = searchString + "**Type a number to make a choice, Type CANCEL to exit**\n";
             bot.sendMessage({
                 to: '507703901663920141',
                 message: searchString
             });
-            searchReturn = JSON.parse(JSON.stringify(data));
-            console.log(searchReturn);
+            //searchReturn = JSON.parse(JSON.stringify(data1));
+            //console.log(searchReturn);
         });
      });
 }    
+
+//convert youtube's time into normal
+function convert_time(duration) {
+    var newTime = "";
+
+    for (duration.length) {
+        switch (duration[i]) {
+            case 'P':
+                break;
+            case 'T':
+                break;
+            case 'D':
+                newTime = newTime + '::';
+                break;
+            case 'H':
+                newTime = newTime + ':';
+                break;
+            case 'M':
+                newTime = newTime + ':';
+                break;
+            case 'S':
+                break;
+            default:
+                newTime = newTime + duration[i];
+        }
+    }
+
+    return newTime;
+}
 
