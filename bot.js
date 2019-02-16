@@ -76,6 +76,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
             var args = message.substring(1).split(' ');
             var video = 'https://youtu.be/' + searchReturn[parseInt(message) - 1].id.videoId;
             args[0] = video;
+            args[1] = searchReturn2[parseInt(message) - 1].contentDetails.duration;
             queue(voiceChannelID, cmd, args);
             bot.sendMessage({
                 to: '507703901663920141',
@@ -409,19 +410,27 @@ let queue = function queue(voiceChannelID, cmd, args) {
     }
 
     //add to queue
-    if (args.length > 1) {
-        //add to top otherwise put at the end
-        if (args[1].toLowerCase == 'top') {
-            console.log('Add to top of music queue: ' + args[0]);
-            musicQueueSource.unshift(args[0]);
-        } else {
-            console.log('Add to music queue: ' + args[0]);
-            musicQueueSource.push(args[0]);
-        }
-    } else {
-        console.log('Add to music queue: ' + args[0]);
-        musicQueueSource.push(args[0]);
-    }
+    console.log('Add to music queue: ' + args[0]);
+    musicQueueSource.push(args[0]);
+    musicQueueTime.push(args[0]);
+
+    //removed feature
+    //if (args.length > 2) {
+    //    //add to top otherwise put at the end
+    //    if (args[2].toLowerCase == 'top') {
+    //        console.log('Add to top of music queue: ' + args[0]);
+    //        musicQueueSource.unshift(args[0]);
+    //        musicQueueTime.unshift(args[0]);
+    //    } else {
+    //        console.log('Add to music queue: ' + args[0]);
+    //        musicQueueSource.push(args[0]);
+    //        musicQueueTime.push(args[0]);
+    //    }
+    //} else {
+    //    console.log('Add to music queue: ' + args[0]);
+    //    musicQueueSource.push(args[0]);
+    //    musicQueueTime.push(args[0]);
+    //}
     
 }
 
