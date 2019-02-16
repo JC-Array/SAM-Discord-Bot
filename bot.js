@@ -77,7 +77,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
             queue(voiceChannelID, cmd, args);
             bot.sendMessage({
                 to: '507703901663920141',
-                message: 'added to queue' + video
+                message: 'added to queue ' + video
             });
         } catch (err) {
             console.log('not valid search response');
