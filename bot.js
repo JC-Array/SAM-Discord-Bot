@@ -445,8 +445,7 @@ function searchYoutube(auth, args) {
         service.videos.list({
             auth: auth,
             part: 'contentDetails',
-            videoId: searchIds,
-            filter: 'id',
+            id: searchIds,
             q: args.join(' '),
             type: 'video'
 
