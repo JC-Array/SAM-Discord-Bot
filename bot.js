@@ -380,6 +380,7 @@ let play = function play(voiceChannelID, cmd, args) {
 
             //remove song that was playing
             musicQueueSource.shift();
+            musicQueueTime.shift();
             //check to see if queue is empty
             if (musicQueueSource.length == 0) {
                 bot.leaveVoiceChannel(voiceChannelID, function () { });
@@ -405,6 +406,7 @@ let queue = function queue(voiceChannelID, cmd, args) {
     if (musicQueueSource.length == 0) {
         console.log('start music queue: ' + args[0]);
         musicQueueSource.push(args[0]);
+        musicQueueTime.push(args[1]);
         play(voiceChannelID, 'start', []);
         return;
     }
@@ -412,7 +414,7 @@ let queue = function queue(voiceChannelID, cmd, args) {
     //add to queue
     console.log('Add to music queue: ' + args[0]);
     musicQueueSource.push(args[0]);
-    musicQueueTime.push(args[0]);
+    musicQueueTime.push(args[1]);
 
     //removed feature
     //if (args.length > 2) {
@@ -420,16 +422,16 @@ let queue = function queue(voiceChannelID, cmd, args) {
     //    if (args[2].toLowerCase == 'top') {
     //        console.log('Add to top of music queue: ' + args[0]);
     //        musicQueueSource.unshift(args[0]);
-    //        musicQueueTime.unshift(args[0]);
+    //        musicQueueTime.unshift(args[1]);
     //    } else {
     //        console.log('Add to music queue: ' + args[0]);
     //        musicQueueSource.push(args[0]);
-    //        musicQueueTime.push(args[0]);
+    //        musicQueueTime.push(args[1]);
     //    }
     //} else {
     //    console.log('Add to music queue: ' + args[0]);
     //    musicQueueSource.push(args[0]);
-    //    musicQueueTime.push(args[0]);
+    //    musicQueueTime.push(args[1]);
     //}
     
 }
@@ -514,26 +516,30 @@ function searchYoutube(auth, args) {
 function convert_time(duration) {
     var newTime = "";
 
-    for (var i = 0; i < duration.length; i++) {
-        switch (duration[i]) {
-            case 'P':
-                break;
-            case 'T':
-                break;
-            case 'D':
-                newTime = newTime + '::';
-                break;
-            case 'H':
-                newTime = newTime + ':';
-                break;
-            case 'M':
-                newTime = newTime + ':';
-                break;
-            case 'S':
-                break;
-            default:
-                newTime = newTime + duration[i];
+    try {
+        for (var i = 0; i < duration.length; i++) {
+            switch (duration[i]) {
+                case 'P':
+                    break;
+                case 'T':
+                    break;
+                case 'D':
+                    newTime = newTime + '::';
+                    break;
+                case 'H':
+                    newTime = newTime + ':';
+                    break;
+                case 'M':
+                    newTime = newTime + ':';
+                    break;
+                case 'S':
+                    break;
+                default:
+                    newTime = newTime + duration[i];
+            }
         }
+    } catch {
+        Console.log('Error in convert_time');
     }
 
     return newTime;
