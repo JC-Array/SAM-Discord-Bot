@@ -13,9 +13,11 @@ var tau = '301151072087441408';
 var waitingForSearchReply;
 var playingMusic = false;
 
-var musicQueue = [];
+var musicQueueSource = [];
+var musicQueueTime = [];
 
-var searchReturn;
+var searchReturn;   //searchs
+var searchReturn2;  //time
 
 var readStream;
 
@@ -116,7 +118,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                     message: names
                 });
                 break;
-            case 'sound':
+            case 'getpunked':
                 //if user is not in voice channel
                 if (voiceChannelID == null) {
                     break;
@@ -135,11 +137,11 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                 });
                 break;
             case 'clear':
-                musicQueue = [];
+                musicQueueSource = [];
                 playingMusic = false;
                 break;
             case 'gtfo':    //fix
-                musicQueue = [];
+                musicQueueSource = [];
                 playingMusic = false;
                 bot.leaveVoiceChannel(voiceChannelID, function () { });
                 break;
@@ -149,7 +151,18 @@ bot.on('message', function (user, userID, channelID, message, evt) {
             case 'help':    //add actual help later
                 bot.sendMessage({
                     to: channelID,
-                    message: 'http://bfy.tw/6iBM'
+                    message: "**COMMANDS**\n
+                        **ping:** PONG!\n
+                        **play:** Play a song with a youtube link\n
+                        **search:** Search for a song\n
+                        **queue:** Prints the song queue\n
+                        **skip:** Skip song ** not working **\n
+                        **clear:** Clear the music queue\n
+                        **gtfo:** Attempts to make the bot leave\n
+                        **townhall:** Welcome the King\n
+                        **getpunked:** Daft Punked\n
+                        **all:** For one\n
+                        for fruther documentation: http://bfy.tw/6iBM"
                 });
                 break;
             case 'skip':
@@ -164,12 +177,13 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                 break;
             case 'queue':
                 var queueString = "";
-                if (musicQueue.length == 0) {
+                if (musicQueueSource.length == 0) {
                     queueString = "There is no queue";
                 } else {
-                    musicQueue.forEach((element) => {
-                        queueString = queueString + element + "\n"
-                    });
+                    queueString = '**Currently playing: ' + queueString[0] + '**\n';
+                    for (var i = 1; i < musicQueueSource.length; i++) {
+                        queueString = queueString + musicQueueSource[i] + ' **[' + convert_time(musicQueueTime[i]) + ']**\n'
+                    }
                 }
                 bot.sendMessage({
                     to: channelID,
@@ -287,7 +301,7 @@ let play = function play(voiceChannelID, cmd, args) {
                 break;
                 //trash skip function, but can't find other way to fix, doesn't work ether
                 bot.leaveVoiceChannel(voiceChannelID, function () { });
-                musicQueue.shift();
+                musicQueueSource.shift();
                 bot.joinVoiceChannel(voiceChannelID, function (error, events) {  });
                 console.log("Skipped song");
                 break;
@@ -335,7 +349,7 @@ let play = function play(voiceChannelID, cmd, args) {
                 console.log("User left tone");
                 break;
             case 'start':
-                readStream = ytdl(String(musicQueue[0]), { quality: 'highestaudio' });
+                readStream = ytdl(String(musicQueueSource[0]), { quality: 'highestaudio' });
                 readStream.pipe(stream, { end: false });
                 console.log("Start songs");
                 console.log(stream);
@@ -354,7 +368,7 @@ let play = function play(voiceChannelID, cmd, args) {
         //when audio is finished playing
         stream.on('done', function () {
             //check to see if there is nothing in queue (for if there was an mp3 file playing)
-            if (musicQueue.length == 0) {
+            if (musicQueueSource.length == 0) {
                 bot.leaveVoiceChannel(voiceChannelID, function () { });
                 playingMusic = false;
                 console.log("Stopped mp3");
@@ -362,17 +376,17 @@ let play = function play(voiceChannelID, cmd, args) {
             }
 
             //remove song that was playing
-            musicQueue.shift();
+            musicQueueSource.shift();
             //check to see if queue is empty
-            if (musicQueue.length == 0) {
+            if (musicQueueSource.length == 0) {
                 bot.leaveVoiceChannel(voiceChannelID, function () { });
                 playingMusic = false;
                 console.log("Stopped music");
                 return;
             } else {
                 //play next song
-                console.log('next song ' + musicQueue[0]);
-                readStream = ytdl(String(musicQueue[0]), { quality: 'highestaudio' });
+                console.log('next song ' + musicQueueSource[0]);
+                readStream = ytdl(String(musicQueueSource[0]), { quality: 'highestaudio' });
                 readStream.pipe(stream, { end: false });
             }
         });
@@ -385,9 +399,9 @@ let play = function play(voiceChannelID, cmd, args) {
 
 let queue = function queue(voiceChannelID, cmd, args) {
     //if there is no queue
-    if (musicQueue.length == 0) {
+    if (musicQueueSource.length == 0) {
         console.log('start music queue: ' + args[0]);
-        musicQueue.push(args[0]);
+        musicQueueSource.push(args[0]);
         play(voiceChannelID, 'start', []);
         return;
     }
@@ -397,14 +411,14 @@ let queue = function queue(voiceChannelID, cmd, args) {
         //add to top otherwise put at the end
         if (args[1].toLowerCase == 'top') {
             console.log('Add to top of music queue: ' + args[0]);
-            musicQueue.unshift(args[0]);
+            musicQueueSource.unshift(args[0]);
         } else {
             console.log('Add to music queue: ' + args[0]);
-            musicQueue.push(args[0]);
+            musicQueueSource.push(args[0]);
         }
     } else {
         console.log('Add to music queue: ' + args[0]);
-        musicQueue.push(args[0]);
+        musicQueueSource.push(args[0]);
     }
     
 }
@@ -479,6 +493,7 @@ function searchYoutube(auth, args) {
                 message: searchString
             });
             searchReturn = JSON.parse(JSON.stringify(data1));
+            searchReturn2 = JSON.parse(JSON.stringify(data2));
             //console.log(searchReturn);
         });
      });
