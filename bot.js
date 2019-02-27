@@ -223,8 +223,16 @@ bot.on('voiceStateUpdate', function (event) {
     users = JSON.parse(JSON.stringify(bot.servers["335603306879778819"].members));
 
     //dont proc if it is the bot
-    if (event.d.user_id == 505565942072475668) return;
-
+    if (event.d.user_id == 505565942072475668) {
+        if (afkChime == 4) {
+            afkChime = 1;
+            bot.moveUserTo({ 'serverID': '335603306879778819', 'userID': chimedUser, 'channelID': '507390016234979328' }, function (error, stream) {
+                if (error) return console.log('error: ' + error);
+            });
+            chimedUser = null;
+        }
+        return;
+    } 
     var flag = false;
     console.log('preVCI: ' + preVoiceChannelID);
 
