@@ -225,11 +225,10 @@ bot.on('voiceStateUpdate', function (event) {
     //dont proc if it is the bot
     if (event.d.user_id == 505565942072475668) {
         if (afkChime == 4) {
-            afkChime = 1;
             bot.moveUserTo({ 'serverID': '335603306879778819', 'userID': chimedUser, 'channelID': '507390016234979328' }, function (error, stream) {
                 if (error) return console.log('error: ' + error);
             });
-            chimedUser = null;
+            afkChime == 5;
         }
         return;
     } 
@@ -266,11 +265,8 @@ bot.on('voiceStateUpdate', function (event) {
         if (!flag) {
             play('550119163142602752', 'afkchime', []);
         }
-    } else if (afkChime == 4) {
+    } else if (afkChime == 5 && chimedUser == event.d.user_id) {
         afkChime = 1; 
-        bot.moveUserTo({ 'serverID': '335603306879778819', 'userID': chimedUser, 'channelID': '507390016234979328' }, function (error, stream) {
-            if (error) return console.log('error: ' + error);
-        });
         chimedUser = null;
     }
 
