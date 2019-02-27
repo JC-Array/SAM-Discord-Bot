@@ -256,7 +256,7 @@ bot.on('voiceStateUpdate', function (event) {
 
         //play chime
         if (!flag) {
-            play('550119163142602752', 'afkChime', []);
+            play('550119163142602752', 'afkchime', []);
         }
     } else if (afkChime == 4) {
         afkChime = 1; 
