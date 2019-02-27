@@ -228,7 +228,7 @@ bot.on('voiceStateUpdate', function (event) {
             bot.moveUserTo({ 'serverID': '335603306879778819', 'userID': chimedUser, 'channelID': '507390016234979328' }, function (error, stream) {
                 if (error) return console.log('error: ' + error);
             });
-            afkChime == 5;
+            afkChime = 5;
         }
         return;
     } 
