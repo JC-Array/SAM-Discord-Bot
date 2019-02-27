@@ -19,6 +19,9 @@ var musicQueueTime = [];
 var searchReturn;   //searchs
 var searchReturn2;  //time
 
+var afkChime;
+var chimedUser;
+
 var readStream;
 
 // handle the different authentication techniques
@@ -59,6 +62,8 @@ bot.on('ready', function (evt) {
         to: '507703901663920141',
         message: ':robot: I am back :robot:'
     });
+
+    afkChime = 1;
 });
 
 bot.on('disconnect', function (errMsg, code) { });
@@ -163,6 +168,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                 helpMessage += '** townhall:** Welcome the King\n';
                 helpMessage += '** getpunked:** Daft Punked\n';
                 helpMessage += '** all:** For one\n';
+                helpMessage += '** reset:** For when the bot breaks (WIP)\n'
                 helpMessage += 'for fruther documentation: http://bfy.tw/6iBM';
                 bot.sendMessage({
                     to: channelID,
@@ -201,6 +207,9 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                 voiceChannelID = users[tau].voice_channel_id
                 play(voiceChannelID, 'billiam', args);
                 break;
+            case 'reset':
+                afkChime = 1;
+                break;
         }
     }
 });
@@ -230,6 +239,31 @@ bot.on('voiceStateUpdate', function (event) {
         if (!flag) {
             play(preVoiceChannelID, 'userleft', []);
         }
+    }
+
+
+    //AFK Movement
+    if (event.d.channel_id == '507390016234979328' && afkChime == 1) {    //user joined AFK
+        afkChime = 2;
+        console.log('AFK Chime');
+        //get pre bot channel
+
+        //move user
+        chimedUser = event.d.user_id;
+        bot.moveUserTo({ 'serverID': '335603306879778819', 'userID': event.d.user_id, 'channelID': '550119163142602752' }, function (error, stream) {
+            if (error) return console.log('error: ' + error);
+        });
+
+        //play chime
+        if (!flag) {
+            play('550119163142602752', 'afkChime', []);
+        }
+    } else if (afkChime == 4) {
+        afkChime = 1; 
+        bot.moveUserTo({ 'serverID': '335603306879778819', 'userID': chimedUser, 'channelID': '507390016234979328' }, function (error, stream) {
+            if (error) return console.log('error: ' + error);
+        });
+        chimedUser = null;
     }
 
     //play christmas tone
@@ -368,10 +402,18 @@ let play = function play(voiceChannelID, cmd, args) {
                 readStream.pipe(stream, { end: false });
                 console.log("billiam tone");
                 break;
+            case 'afkchime':
+                afkChime = 3;
+                //check to see if this will override current song playing
+                readStream = fs.createReadStream('soundClips/AfkChime.mp3');
+                readStream.pipe(stream, { end: false });
+                console.log("afk Chime tone");
+                break;
         }
 
         //when audio is finished playing
         stream.on('done', function () {
+            if (afkChime == 3) afkChime = 4;
             //check to see if there is nothing in queue (for if there was an mp3 file playing)
             if (musicQueueSource.length == 0) {
                 bot.leaveVoiceChannel(voiceChannelID, function () { });
