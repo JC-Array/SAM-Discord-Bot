@@ -257,13 +257,13 @@ bot.on('voiceStateUpdate', function (event) {
 
         //move user
         chimedUser = event.d.user_id;
-        bot.moveUserTo({ 'serverID': '335603306879778819', 'userID': event.d.user_id, 'channelID': '550119163142602752' }, function (error, stream) {
+        bot.moveUserTo({ 'serverID': '335603306879778819', 'userID': event.d.user_id, 'channelID': '567035853793394718' }, function (error, stream) {
             if (error) return console.log('error: ' + error);
         });
 
         //play chime
         if (!flag) {
-            play('550119163142602752', 'afkchime', []);
+            play('567035853793394718', 'afkchime', []);
         }
     } else if (afkChime == 5 && chimedUser == event.d.user_id) {
         afkChime = 1; 
