@@ -337,6 +337,7 @@ let play = function play(voiceChannelID, cmd, args) {
     //get audio context
     bot.getAudioContext(voiceChannelID, function (error, stream) {
         if (error) return console.log('error: ' + error);
+        playingMusic = true;
         //switch statement for commands related to audio currently playing
         switch(cmd){
             case 'skip':
