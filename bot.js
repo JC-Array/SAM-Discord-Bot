@@ -250,7 +250,7 @@ bot.on('voiceStateUpdate', function (event) {
 
 
     //AFK Movement
-    if (event.d.channel_id == '507390016234979328' && afkChime == 1) {    //user joined AFK
+    if (!playingMusic && event.d.channel_id == '507390016234979328' && afkChime == 1) {    //user joined AFK
         afkChime = 2;
         console.log('AFK Chime');
         //get pre bot channel
