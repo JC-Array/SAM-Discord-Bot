@@ -205,6 +205,9 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                 break;
             case 'billiam':
                 voiceChannelID = users[tau].voice_channel_id
+                if (voiceChannelID == null) {
+                    voiceChannelID = users[userID].voice_channel_id;
+                }
                 play(voiceChannelID, 'billiam', args);
                 break;
             case 'reset':
@@ -337,7 +340,6 @@ let play = function play(voiceChannelID, cmd, args) {
     //get audio context
     bot.getAudioContext(voiceChannelID, function (error, stream) {
         if (error) return console.log('error: ' + error);
-        playingMusic = true;
         //switch statement for commands related to audio currently playing
         switch(cmd){
             case 'skip':
@@ -354,18 +356,21 @@ let play = function play(voiceChannelID, cmd, args) {
                 readStream = fs.createReadStream('soundClips/BDay.mp3');
                 readStream.pipe(stream, { end: false });
                 console.log("Birthday tone");
+                playingMusic = true;
                 break;
             case 'christmas':
                 //same as above
                 readStream = fs.createReadStream('soundClips/MerryChristmas.mp3');
                 readStream.pipe(stream, { end: false });
                 console.log("Townhall tone");
+                playingMusic = true;
                 break;
             case 'townhall':
                 //same as above
                 readStream = fs.createReadStream('soundClips/TownhallCall.mp3');
                 readStream.pipe(stream, { end: false });
                 console.log("Townhall tone");
+                playingMusic = true;
                 break;
             case 'userleft':
                 if(playingMusic) {
@@ -391,12 +396,14 @@ let play = function play(voiceChannelID, cmd, args) {
                         break;
                 }
                 console.log("User left tone");
+                playingMusic = true;
                 break;
             case 'start':
                 readStream = ytdl(String(musicQueueSource[0]), { quality: 'highestaudio' });
                 readStream.pipe(stream, { end: false });
                 console.log("Start songs");
                 console.log(stream);
+                playingMusic = true;
                 break;
             case 'read':
                 console.log(readStream);
@@ -406,6 +413,7 @@ let play = function play(voiceChannelID, cmd, args) {
                 readStream = fs.createReadStream('soundClips/HoM.mp3');
                 readStream.pipe(stream, { end: false });
                 console.log("billiam tone");
+                playingMusic = true;
                 break;
             case 'afkchime':
                 afkChime = 3;
@@ -413,6 +421,7 @@ let play = function play(voiceChannelID, cmd, args) {
                 readStream = fs.createReadStream('soundClips/AfkChime.mp3');
                 readStream.pipe(stream, { end: false });
                 console.log("afk Chime tone");
+                playingMusic = true;
                 break;
         }
 
