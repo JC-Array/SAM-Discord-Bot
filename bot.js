@@ -182,6 +182,11 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                 queue(voiceChannelID, cmd, args);
                 break;
             case 'search':
+                bot.sendMessage({
+                    to: channelID,
+                    message: "Currently Disabled, API Key disabled by Google due to inactivity"
+                });
+                break;
                 searchYoutube(youtubeToken, args);
                 waitingForSearchReply = userID;
                 break;
