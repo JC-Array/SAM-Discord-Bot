@@ -8,7 +8,7 @@
 		"discord.io": "github:woor/discord.io#gateway_v6",
 		"ffmpeg": "0.0.4",
 		"google-auth-library": "^2.0.1",
-		"googleapis": "^34.0.0",
+		"googleapis": "^39.1.0",
 		"ytdl-core": "^0.27.1"
 	},
 	"scripts": {
